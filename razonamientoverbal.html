@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Razonamiento Verbal - Analogías</title>
+  <style>
+    body {
+      font-family: 'Verdana', sans-serif;
+      background: linear-gradient(135deg, #ffeb99, #b3e5fc);
+      padding: 20px;
+      text-align: center;
+      margin: 0;
+    }
+    h1 {
+      color: #2c3e50;
+      font-size: 2.2em;
+      margin-bottom: 10px;
+    }
+    .avatar {
+      margin: 15px;
+      font-size: 2em;
+    }
+    .barra-progreso {
+      width: 80%;
+      height: 20px;
+      background: #ddd;
+      border-radius: 10px;
+      margin: 10px auto;
+      overflow: hidden;
+    }
+    .progreso {
+      height: 100%;
+      width: 0%;
+      background: #28a745;
+      transition: width 0.3s;
+    }
+    .explicacion {
+      background: #fff5cc;
+      border: 2px dashed #f4c542;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 20px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+      font-size: 1.1em;
+    }
+    .pregunta {
+      background-color: #ffffff;
+      padding: 20px;
+      margin: 20px auto;
+      max-width: 600px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      border-top: 5px solid #f39c12;
+      transition: transform 0.2s ease;
+    }
+    .pregunta:hover {
+      transform: scale(1.02);
+    }
+    .pregunta p {
+      font-size: 1.4em;
+      font-weight: bold;
+      color: #34495e;
+      margin-bottom: 15px;
+    }
+    button {
+      margin: 6px;
+      padding: 10px 18px;
+      font-size: 1em;
+      border: none;
+      border-radius: 8px;
+      background-color: #f39c12;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    button:hover {
+      background-color: #d9820f;
+      transform: translateY(-2px);
+    }
+    .respuesta {
+      margin-top: 10px;
+      font-weight: bold;
+      font-size: 1.2em;
+    }
+    .cronometro {
+      font-size: 1.4em;
+      font-weight: bold;
+      color: #e74c3c;
+      margin-top: 10px;
+    }
+    .final {
+      display: none;
+      margin-top: 30px;
+    }
+    .regalo {
+      font-size: 5em;
+      cursor: pointer;
+      transition: transform 0.4s;
+    }
+    .regalo:hover {
+      transform: scale(1.2);
+    }
+    .sorpresa {
+      display: none;
+      font-size: 1.6em;
+      color: #27ae60;
+      margin-top: 20px;
+      animation: aparecer 1s ease;
+    }
+    @keyframes aparecer {
+      from { opacity: 0; transform: scale(0.5); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    #puntajeFinal {
+      font-size: 1.4em;
+      font-weight: bold;
+      margin-bottom: 15px;
+      color: #2980b9;
+    }
+  </style>
+</head>
+<body>
+  <h1>Razonamiento Verbal: Analogías</h1>
+  <div class="avatar">👽 Tu guía extraterrestre</div>
+
+  <div class="barra-progreso">
+    <div class="progreso" id="progreso"></div>
+  </div>
+
+  <div class="cronometro" id="cronometro">Tiempo: 2:30</div>
+
+  <div class="explicacion">
+    <h3>¿Qué son las analogías?</h3>
+    <p>Una <strong>analogía</strong> es una relación entre dos palabras o ideas. Por ejemplo:</p>
+    <p><em>"Gato es a felino como perro es a canino."</em></p>
+    <p>Tu tarea es encontrar cuál de las opciones tiene la misma relación que las palabras dadas.</p>
+    <p>¡Resuelve los siguientes 20 ejercicios!</p>
+  </div>
+
+  <div id="contenedor"></div>
+
+  <div class="final" id="final">
+    <div id="puntajeFinal"></div>
+    <div class="regalo" onclick="abrirRegalo()">🎁</div>
+    <div class="sorpresa" id="sorpresa">✨👽 ¡Genial! Has completado las analogías 👽✨</div>
+  </div>
+
+  <script>
+    const preguntas = [
+      { enunciado: "Sol es a día como luna es a:", opciones: ["Noche", "Sol", "Estrella", "Cielo"], correcta: "Noche" },
+      { enunciado: "Pintor es a pintura como escritor es a:", opciones: ["Cuento", "Papel", "Libro", "Historia"], correcta: "Libro" },
+      { enunciado: "Maestro es a enseñar como médico es a:", opciones: ["Curar", "Escribir", "Leer", "Estudiar"], correcta: "Curar" },
+      { enunciado: "Zapato es a pie como guante es a:", opciones: ["Cabeza", "Dedo", "Mano", "Ropa"], correcta: "Mano" },
+      { enunciado: "Agua es a sed como comida es a:", opciones: ["Cocina", "Hambre", "Desayuno", "Restaurante"], correcta: "Hambre" },
+      { enunciado: "Reloj es a tiempo como termómetro es a:", opciones: ["Altura", "Peso", "Temperatura", "Luz"], correcta: "Temperatura" },
+      { enunciado: "Frío es a helado como calor es a:", opciones: ["Sol", "Frío", "Temblor", "Fuego"], correcta: "Fuego" },
+      { enunciado: "Ave es a volar como pez es a:", opciones: ["Respirar", "Saltar", "Nadar", "Caminar"], correcta: "Nadar" },
+      { enunciado: "Nariz es a oler como ojo es a:", opciones: ["Escuchar", "Ver", "Tocar", "Hablar"], correcta: "Ver" },
+      { enunciado: "Carpintero es a madera como herrero es a:", opciones: ["Hierro", "Ladrillo", "Piedra", "Metal"], correcta: "Hierro" },
+      { enunciado: "Llave es a cerradura como botón es a:", opciones: ["Cierre", "Camisa", "Encender", "Control"], correcta: "Camisa" },
+      { enunciado: "León es a selva como oso es a:", opciones: ["Montaña", "Cueva", "Bosque", "Pasto"], correcta: "Bosque" },
+      { enunciado: "Oreja es a escuchar como boca es a:", opciones: ["Probar", "Comer", "Hablar", "Mirar"], correcta: "Hablar" },
+      { enunciado: "Lapicero es a escribir como tijera es a:", opciones: ["Pegar", "Cortar", "Pintar", "Medir"], correcta: "Cortar" },
+      { enunciado: "Niño es a pequeño como adulto es a:", opciones: ["Viejo", "Anciano", "Grande", "Papá"], correcta: "Grande" },
+      { enunciado: "Reloj es a muñeca como anillo es a:", opciones: ["Cuello", "Dedo", "Cabeza", "Mano"], correcta: "Dedo" },
+      { enunciado: "Perro es a ladrar como gato es a:", opciones: ["Maullar", "Correr", "Saltar", "Rasguñar"], correcta: "Maullar" },
+      { enunciado: "Escuela es a aprender como hospital es a:", opciones: ["Dormir", "Curar", "Comprar", "Correr"], correcta: "Curar" },
+      { enunciado: "Feliz es a sonrisa como triste es a:", opciones: ["Lágrimas", "Risa", "Aburrido", "Gesto"], correcta: "Lágrimas" },
+      { enunciado: "Bicicleta es a pedales como auto es a:", opciones: ["Llantas", "Motor", "Combustible", "Volante"], correcta: "Motor" }
+    ];
+
+    function mezclarArreglo(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    let correctas = 0;
+    const total = 20;
+    let tiempoRestante = 150; // 2 min 30 seg
+    const progresoBarra = document.getElementById("progreso");
+    const contenedor = document.getElementById("contenedor");
+    const final = document.getElementById("final");
+    const puntajeFinal = document.getElementById("puntajeFinal");
+    const cronometro = document.getElementById("cronometro");
+
+    const preguntasAleatorias = mezclarArreglo([...preguntas]).slice(0, total);
+
+    preguntasAleatorias.forEach(pregunta => {
+      const div = document.createElement("div");
+      div.className = "pregunta";
+
+      const p = document.createElement("p");
+      p.innerHTML = pregunta.enunciado;
+      div.appendChild(p);
+
+      const resultado = document.createElement("div");
+      resultado.className = "respuesta";
+
+      pregunta.opciones.forEach(opcion => {
+        const btn = document.createElement("button");
+        btn.textContent = opcion;
+        btn.onclick = () => {
+          if (opcion === pregunta.correcta) {
+            correctas++;
+            resultado.textContent = "✅ ¡Correcto!";
+            resultado.style.color = "green";
+          } else {
+            resultado.textContent = "❌ Incorrecto";
+            resultado.style.color = "red";
+          }
+          progresoBarra.style.width = (correctas / total * 100) + "%";
+
+          if (correctas === total) {
+            finalizarJuego();
+          }
+        };
+        div.appendChild(btn);
+      });
+
+      div.appendChild(resultado);
+      contenedor.appendChild(div);
+    });
+
+    function finalizarJuego() {
+      contenedor.style.display = "none";
+      puntajeFinal.textContent = `✅ Respuestas correctas: ${correctas} de ${total}`;
+      final.style.display = "block";
+      clearInterval(intervalo);
+    }
+
+    const intervalo = setInterval(() => {
+      if (tiempoRestante <= 0) {
+        finalizarJuego();
+      } else {
+        tiempoRestante--;
+        let min = Math.floor(tiempoRestante / 60);
+        let seg = tiempoRestante % 60;
+        cronometro.textContent = `Tiempo: ${min}:${seg < 10 ? "0" + seg : seg}`;
+      }
+    }, 1000);
+
+    function abrirRegalo() {
+      document.getElementById("sorpresa").style.display = "block";
+    }
+  </script>
+
+  <a href="comunicacion.html" 
+     style="display:inline-block; margin-top:20px; padding:10px 15px; background:#f39c12; color:white; text-decoration:none; border-radius:5px;">
+     ⬅ Regresar
+  </a>
+</body>
+</html>
+

@@ -1,0 +1,395 @@
+<!DOCTYPE html> 
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio - MATCOHIS</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+
+        /* Estilo de la sección de bienvenida */
+        .welcome {
+            padding: 30px;
+            background-color: #fdfdfd;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .welcome:hover {
+            background-color: #f4f4f4;
+        }
+
+        .welcome h2 {
+            color: #2c3e50;
+            font-size: 2.5em;
+            font-family: 'Verdana', sans-serif;
+        }
+
+        .welcome p {
+            font-size: 1.2em;
+            line-height: 1.8;
+            color: #34495e;
+            font-family: 'Georgia', serif;
+        }
+
+        .welcome img {
+            border-radius: 12px;
+            margin-top: 20px;
+            transition: transform 0.3s ease-in-out;
+            width: 100%;
+            height: auto;
+        }
+
+        .welcome img:hover {
+            transform: scale(1.1);
+            opacity: 0.8;
+        }
+
+        /* Estilo para las secciones de la galería */
+        .gallery {
+            display: flex;
+            justify-content: space-between;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .item {
+            background: linear-gradient #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+            width: 30%;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .item:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+        }
+
+        .item img {
+            width: 100%;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .item img:hover {
+            transform: scale(1.1);
+        }
+
+        .menu-toggle {
+            display: none;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #f0e68c;
+            transform: scale(1.1);
+        }
+
+        /* 💬 Testimonios mejorados con movimiento moderado */
+        .testimonials {
+            background: linear-gradient(135deg, #ffed99, #ffd180, #ffb3b3);
+
+            padding: 60px 20px;
+            border-radius: 15px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+            margin: 50px 0;
+            text-align: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .testimonials h2 {
+            color: #2c3e50;
+            font-size: 2.3em;
+            margin-bottom: 40px;
+            font-family: 'Verdana', sans-serif;
+        }
+
+        .testimonial-container {
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .testimonial-slider {
+            display: flex;
+            gap: 25px;
+            width: max-content;
+            animation: smoothScroll 40s linear infinite;
+        }
+
+        .testimonial {
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+            padding: 20px;
+            width: 300px;
+            flex-shrink: 0;
+            text-align: left;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .testimonial:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+        }
+
+        .testimonial img {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 15px;
+            border: 3px solid #f1c40f;
+        }
+
+        .testimonial-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .testimonial-header div {
+            flex-grow: 1;
+        }
+
+        .testimonial-header h3 {
+            margin: 0;
+            font-size: 1.2em;
+            color: #2c3e50;
+        }
+
+        .testimonial-header p {
+            margin: 0;
+            color: #777;
+            font-size: 0.9em;
+        }
+
+        .stars {
+            color: #f1c40f;
+            font-size: 1.2em;
+            margin-bottom: 8px;
+        }
+
+        .testimonial p {
+            font-family: 'Georgia', serif;
+            color: #555;
+            font-size: 1em;
+            line-height: 1.6;
+        }
+
+        /* Movimiento más natural, sin ir de extremo a extremo */
+        @keyframes smoothScroll {
+            0% { transform: translateX(0); }
+            50% { transform: translateX(-50%); }
+            100% { transform: translateX(0); }
+        }
+
+        .testimonials:hover .testimonial-slider {
+            animation-play-state: paused;
+        }
+
+        /* Sección de Únete */
+        .join-us {
+            background-color: #f39c12;
+            padding: 40px;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 30px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .join-us h2 {
+            color: #fff;
+            font-size: 2.5em;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .join-us p {
+            font-size: 1.2em;
+            color: #fff;
+            font-family: 'Georgia', serif;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>MATCOHIS</h1>
+        <p>Aprende matemáticas, comunicación e historia de forma divertida</p>
+    </header>
+    <nav>
+        <button class="menu-toggle" aria-label="Toggle menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <a href="#">Inicio</a>
+        <a href="matematica.html">Matemática</a>
+        <a href="comunicacion.html">Comunicación</a>
+        <a href="historia.html">Historia</a>
+        <a href="contacto.html">Contacto</a>
+    </nav>
+
+    <main>
+        <section class="welcome">
+            <h2>Bienvenidos a Matcohis</h2>
+            <p>En "Matcohis", te invitamos a descubrir un espacio donde la matemática, la comunicación y la historia se aprenden de forma dinámica y entretenida. A través de problemas desafiantes, preguntas interactivas y recursos diseñados especialmente para estudiantes de primaria, potenciarás tus habilidades mientras te diviertes.</p>
+            <p>Nuestro objetivo es que cada reto te motive a pensar, analizar y mejorar en estas materias esenciales. ¡Explora, aprende y disfruta con Matcohis!</p>
+            <div class="grid-item">
+                <img src="img/img 99999.PNG" alt="Arte en El Mundo del Arte">
+            </div>
+        </section>
+
+        <section class="about">
+            <h2>¿Qué encontrarás en Matcohis?</h2>
+            <p>Este sitio está diseñado para todos los estudiantes que buscan aprender de manera divertida y desafiante. Si te gustan los retos matemáticos, quieres mejorar tu comprensión en comunicación o descubrir más sobre historia, aquí encontrarás el espacio perfecto para desarrollar tus habilidades. En Matcohis te esperan ejercicios interactivos, preguntas que pondrán a prueba tu conocimiento y actividades que harán que el aprendizaje sea una experiencia emocionante. ¡Atrévete a explorar, resolver y aprender con nosotros! Nuestra página se divide en varias secciones:</p>
+            <ul>
+                <li><strong>Matemática:</strong> Pon a prueba tu ingenio con desafíos numéricos y problemas que harán que los números cobren vida.</li>
+                <li><strong>Comunicación:</strong> Descubre el poder de las palabras con actividades que fortalecerán tu lectura y escritura de forma divertida.</li>
+                <li><strong>Historia:</strong> Viaja al pasado, explora y conoce los eventos y personajes que dieron forma a nuestro mundo.</li>
+                <li><strong>Contacto:</strong> Si tienes alguna consulta o deseas saber más sobre nuestro contenido educativo, estamos aquí para ayudarte.</li>
+            </ul>
+        </section>
+
+        <section class="featured-art">
+            <h2>Te brindamos las siguientes áreas</h2>
+            <p>En esta sección, queremos mostrarte los temas que abordan nuestra página web educativa. Cada una de ellas cuentan con ejercicio diseñados para el nivel primario, haciéndolas únicas.</p>
+            <div class="gallery">
+                <div class="item">
+                    <img src="img/img101.PNG" alt="Tambo, dibujo a lápiz por Diana Asencios">
+                    <p><strong>Área:</strong> Matemática</p>
+                    <p><strong>Te ofrecemos los siguientes temas:</strong></p>
+                    <p>Aritmética</p>
+                    <p>Razonamiento matemático</p>
+                    <p>Geometría</p>
+                </div>
+                <div class="item">
+                    <img src="img/img102.PNG" alt="Paisaje abstracto">
+                    <p><strong>Área:</strong> Comunicación</p>
+                    <p><strong>Te ofrecemos los siguientes temas:</strong></p>
+                    <p>Lenguaje</p>
+                    <p>Razonamiento verbal</p>
+                </div>
+                <div class="item">
+                    <img src="img/img103.PNG" alt="Retrato en óleo">
+                    <p><strong>Área:</strong> Historia </p>
+                    <p><strong>Te ofrecemos los siguientes temas:</strong></p>
+                    <p>Historia del Perú </p>
+                    <p>Historia Universal</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 💬 Testimonios con movimiento suave dentro de marco -->
+        <section class="testimonials">
+            <h2>💬 Testimonios</h2>
+            <div class="testimonial-container">
+                <div class="testimonial-slider">
+
+                    <div class="testimonial">
+                        <div class="testimonial-header">
+                            <img src="img/img5.PNG" alt="Estudiante">
+                            <div>
+                                <h3>Luciana Ramos</h3>
+                                <p>Estudiante de primaria</p>
+                            </div>
+                        </div>
+                        <div class="stars">⭐⭐⭐⭐⭐</div>
+                        <p>"Matcohis me ayudó a entender las matemáticas de una forma divertida. ¡Ahora son mis clases favoritas!"</p>
+                    </div>
+
+                    <div class="testimonial">
+                        <div class="testimonial-header">
+                            <img src="img/img2.PNG" alt="Padre de familia">
+                            <div>
+                                <h3>Carlos Medina</h3>
+                                <p>Padre de familia</p>
+                            </div>
+                        </div>
+                        <div class="stars">⭐⭐⭐⭐⭐</div>
+                        <p>"Mi hijo aprendió muchísimo gracias a esta plataforma. Es didáctica, segura y muy útil para reforzar su aprendizaje."</p>
+                    </div>
+
+                    <div class="testimonial">
+                        <div class="testimonial-header">
+                            <img src="img/img1.PNG" alt="Director">
+                            <div>
+                                <h3>José Paredes</h3>
+                                <p>Director de la I.E. Sarita Colonia</p>
+                            </div>
+                        </div>
+                        <div class="stars">⭐⭐⭐⭐⭐</div>
+                        <p>"Matcohis es una gran herramienta para el nivel primario. Promueve el aprendizaje activo y motiva a los estudiantes."</p>
+                    </div>
+
+                    <div class="testimonial">
+                        <div class="testimonial-header">
+                            <img src="img/img3.PNG" alt="Profesora">
+                            <div>
+                                <h3>María Gutiérrez</h3>
+                                <p>Docente de la I.E Sarita Colonia</p>
+                            </div>
+                        </div>
+                        <div class="stars">⭐⭐⭐⭐⭐</div>
+                        <p>"Una plataforma muy útil para guiar a los estudiantes en su aprendizaje. ¡Me encanta el enfoque interactivo!"</p>
+                    </div>
+
+                    <div class="testimonial">
+                        <div class="testimonial-header">
+                            <img src="img/img6.PNG" alt="Niño estudiante">
+                            <div>
+                                <h3>Andrés López</h3>
+                                <p>Estudiante de sexto grado</p>
+                            </div>
+                        </div>
+                        <div class="stars">⭐⭐⭐⭐⭐</div>
+                        <p>"Los juegos de matemáticas son súper divertidos, siento que aprendo sin aburrirme. ¡Matcohis es genial!"</p>
+                    </div>
+
+                    <div class="testimonial">
+                        <div class="testimonial-header">
+                            <img src="img/img4.PNG" alt="Madre de familia">
+                            <div>
+                                <h3>Rosa Fernández</h3>
+                                <p>Madre de familia</p>
+                            </div>
+                        </div>
+                        <div class="stars">⭐⭐⭐⭐⭐</div>
+                        <p>"Una página educativa que todos los padres deberían conocer. Motiva a los niños a aprender jugando."</p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section class="join-us">
+            <h2>Únete a Nuestra Comunidad</h2>
+            <p>El aprendizaje puede ser divertido y emocionante, y en "Matcohis" queremos que formes parte de nuestra comunidad. Aquí podrás resolver retos matemáticos, mejorar tu comunicación y explorar los eventos más fascinantes de la historia. Si eres un estudiante curioso, este es tu espacio para aprender jugando. ¡Acompáñanos y descubre todo lo que puedes lograr!</p>
+            <p>¡El aprendizaje está al alcance de todos, y tú puedes ser parte de él!</p>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Mentes poderosas en acción - Sistema MATCOHIS | Todos los derechos reservados.</p>
+        </div>
+    </footer>
+</body>
+</html>
+

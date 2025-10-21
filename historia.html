@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Historia - MATCOHIS</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Sección de bienvenida */
+    .welcome {
+      padding: 30px;
+      background-color: #fdfdfd;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      margin-bottom: 30px;
+      transition: background-color 0.3s ease-in-out;
+    }
+    .welcome:hover {
+      background-color: #f4f4f4;
+    }
+    .welcome h2 {
+      color: #2c3e50;
+      font-size: 2.5em;
+      font-family: 'Verdana', sans-serif;
+    }
+    .welcome p {
+      font-size: 1.2em;
+      line-height: 1.8;
+      color: #34495e;
+      font-family: 'Georgia', serif;
+    }
+
+    /* Galería */
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+    .gallery .item {
+      width: 280px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .gallery .item img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 12px;
+    }
+
+    /* Botones del menú */
+    .menu-toggle {
+      display: none;
+    }
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      margin: 0 20px;
+      font-size: 1.2em;
+      font-weight: bold;
+      text-transform: uppercase;
+      transition: color 0.3s ease, transform 0.3s ease;
+    }
+    nav a:hover {
+      color: #f0e68c;
+      transform: scale(1.1);
+    }
+
+    /* 🔸 Botón de video (igual que en matemática.html) */
+    .video-link {
+      display: inline-block;
+      background-color: #ff9800;
+      color: white;
+      font-weight: bold;
+      text-decoration: none;
+      padding: 10px 16px;
+      border-radius: 25px;
+      margin-top: 8px;
+      transition: all 0.3s ease;
+      font-size: 0.95em;
+    }
+
+    .video-link:hover {
+      background-color: #e68900;
+      transform: scale(1.08);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>MATCOHIS</h1>
+  </header>
+  <nav>
+    <button class="menu-toggle" aria-label="Toggle menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <a href="index.html">Inicio</a>
+    <a href="matematica.html">Matemática</a>
+    <a href="comunicacion.html">Comunicación</a>
+    <a href="#">Historia</a>
+    <a href="contacto.html">Contacto</a>
+  </nav>
+
+  <!-- 🔹 NIVEL BÁSICO -->
+  <main>
+    <h2>Nivel Básico</h2>
+    <div class="gallery">
+      <div class="item">
+        <a href="historiadelperu.html">
+          <img src="img/img236.PNG" alt="Haz clic para jugar">
+        </a>
+        <p>
+          <strong>HISTORIA DEL PERÚ</strong><br>
+          <strong>Tema:</strong> 
+          <a href="historiadelperu.html" style="text-decoration: none; color: #2a2a72;">La cultura Caral: la civilización más antigua de América</a>
+        </p>
+        <a href="img/historiadelperu1.mp4" class="video-link">📺 ¡Aprende con un video!</a>
+      </div>
+
+      <div class="item">
+        <a href="historiauniversal.html">
+          <img src="img/img237.PNG" alt="Haz clic para jugar">
+        </a>
+        <p>
+          <strong>HISTORIA UNIVERSAL</strong><br>
+          <strong>Tema:</strong> 
+          <a href="historiauniversal.html" style="text-decoration: none; color: #2a2a72;">Civilización egipcia</a>
+        </p>
+        <a href="img/historiauniversal1.mp4" class="video-link">🎥 Mira la historia egipcia</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- 🔹 NIVEL INTERMEDIO -->
+  <main>
+    <h2>Nivel Intermedio</h2>
+    <div class="gallery">
+      <div class="item">
+        <a href="historiadelperu_intermedio.html">
+          <img src="img/img238.PNG" alt="Haz clic para jugar">
+        </a>
+        <p>
+          <strong>HISTORIA DEL PERÚ</strong><br>
+          <strong>Tema:</strong> 
+          <a href="historiadelperu_intermedio.html" style="text-decoration: none; color: #2a2a72;">Organización del Tahuantinsuyo (Incas)</a>
+        </p>
+        <a href="img/historiadelperu2.mp4" class="video-link">🎬 Descubre el Imperio Inca</a>
+      </div>
+
+      <div class="item">
+        <a href="historiauniversal_intermedio.html">
+          <img src="img/img239.PNG" alt="Haz clic para jugar">
+        </a>
+        <p>
+          <strong>HISTORIA UNIVERSAL</strong><br>
+          <strong>Tema:</strong> 
+          <a href="historiauniversal_intermedio.html" style="text-decoration: none; color: #2a2a72;">La civilización griega y la democracia</a>
+        </p>
+        <a href="img/historiauniversal2.mp4" class="video-link">🏛️ Aprende sobre Grecia</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- 🔹 NIVEL AVANZADO -->
+  <main>
+    <h2>Nivel Avanzado</h2>
+    <div class="gallery">
+      <div class="item">
+        <a href="historiadelperu_avanzado.html">
+          <img src="img/img240.PNG" alt="Haz clic para jugar">
+        </a>
+        <p>
+          <strong>HISTORIA DEL PERÚ</strong><br>
+          <strong>Tema:</strong> 
+          <a href="historiadelperu_avanzado.html" style="text-decoration: none; color: #2a2a72;">La independencia del Perú</a>
+        </p>
+        <a href="img/historiadelperu3.mp4" class="video-link">🎓 Revive la independencia</a>
+      </div>
+
+      <div class="item">
+        <a href="historiauniversal_avanzado.html">
+          <img src="img/img241.PNG" alt="Haz clic para jugar">
+        </a>
+        <p>
+          <strong>HISTORIA UNIVERSAL</strong><br>
+          <strong>Tema:</strong> 
+          <a href="historiauniversal_avanzado.html" style="text-decoration: none; color: #2a2a72;">La historia de los derechos humanos en el mundo</a>
+        </p>
+        <a href="img/historiauniversal3.mp4" class="video-link">🌍 Video sobre los derechos humanos</a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Mentes poderosas en acción - Sistema MATCOHIS | Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
+

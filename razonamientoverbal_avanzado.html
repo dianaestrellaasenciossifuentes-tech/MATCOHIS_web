@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Razonamiento Verbal Avanzado - Comprensión Lectora</title>
+   <style>
+    body {
+      font-family: 'Verdana', sans-serif;
+      background: linear-gradient(135deg, #ffeb99, #b3e5fc);
+      padding: 20px;
+      text-align: center;
+      margin: 0;
+    }
+    h1 {
+      color: #2c3e50;
+      font-size: 2.2em;
+      margin-bottom: 20px;
+    }
+    .explicacion {
+      background: #fff5cc;
+      border: 2px dashed #f4c542;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 20px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+      font-size: 1.1em;
+    }
+    .pregunta {
+      background-color: #ffffff;
+      padding: 20px;
+      margin: 20px auto;
+      max-width: 600px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      border-top: 5px solid #f39c12;
+      transition: transform 0.2s ease;
+    }
+    .pregunta:hover {
+      transform: scale(1.02);
+    }
+    .pregunta p {
+      font-size: 1.4em;
+      font-weight: bold;
+      color: #34495e;
+      margin-bottom: 15px;
+    }
+    button {
+      margin: 6px;
+      padding: 10px 18px;
+      font-size: 1em;
+      border: none;
+      border-radius: 8px;
+      background-color: #f39c12;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    button:hover {
+      background-color: #d9820f;
+      transform: translateY(-2px);
+    }
+    .respuesta {
+      margin-top: 10px;
+      font-weight: bold;
+      font-size: 1.2em;
+    }
+  </style>
+</head>
+<body>
+  <h1>Razonamiento Verbal Avanzado: Comprensión Lectora</h1>
+
+  <div class="explicacion">
+    <h3>¿Qué es la comprensión lectora?</h3>
+    <p>Es la capacidad de entender, interpretar y reflexionar sobre un texto leído. Implica identificar ideas principales, inferencias, propósito del autor, y más.</p>
+    <p>¡Lee atentamente cada texto y responde las preguntas!</p>
+  </div>
+
+  <div id="contenedor"></div>
+
+  <script>
+    const preguntas = [
+      {
+        enunciado: "Texto: 'El colibrí, aunque pequeño, es uno de los pájaros más ágiles. Su capacidad para mantenerse suspendido en el aire lo hace único.'<br><br>¿Qué destaca el texto del colibrí?",
+        opciones: ["Su tamaño grande", "Su canto melodioso", "Su vuelo suspendido", "Su plumaje brillante"],
+        correcta: "Su vuelo suspendido"
+      },
+      {
+        enunciado: "Texto: 'A pesar de la tormenta, los niños salieron a jugar bajo la lluvia con sus impermeables.'<br><br>¿Qué sugiere la actitud de los niños?",
+        opciones: ["Son obedientes", "No les importa el clima", "Temen la lluvia", "Están aburridos en casa"],
+        correcta: "No les importa el clima"
+      },
+      {
+        enunciado: "Texto: 'El desierto de Atacama es uno de los lugares más secos del mundo. Sin embargo, algunas plantas han desarrollado mecanismos para sobrevivir allí.'<br><br>¿Qué se infiere del texto?",
+        opciones: ["No hay vida en el desierto", "Solo llueve en verano", "Existen adaptaciones naturales", "No hay plantas"],
+        correcta: "Existen adaptaciones naturales"
+      },
+      {
+        enunciado: "Texto: 'María estudió toda la noche para su examen. A la mañana siguiente, apenas podía mantenerse despierta.'<br><br>¿Qué consecuencia tuvo su esfuerzo?",
+        opciones: ["Se durmió en clase", "No asistió al examen", "Estaba muy cansada", "Olvidó todo lo estudiado"],
+        correcta: "Estaba muy cansada"
+      },
+      {
+        enunciado: "Texto: 'Los pingüinos no pueden volar, pero son excelentes nadadores.'<br><br>¿Cuál es el contraste que presenta el texto?",
+        opciones: ["No tienen alas", "Son aves y vuelan", "Viven en el calor", "No vuelan pero nadan muy bien"],
+        correcta: "No vuelan pero nadan muy bien"
+      },
+      {
+        enunciado: "Texto: 'Cuando Clara llegó a la estación, el tren ya había partido. Miró su reloj y suspiró con resignación.'<br><br>¿Qué emoción experimentó Clara?",
+        opciones: ["Alegría", "Resignación", "Ansiedad", "Confusión"],
+        correcta: "Resignación"
+      },
+      {
+        enunciado: "Texto: 'El chef preparó un platillo con ingredientes exóticos, buscando sorprender a sus comensales.'<br><br>¿Qué intención tenía el chef?",
+        opciones: ["Ser rápido", "Impresionar a los invitados", "Cocinar por obligación", "Repetir la receta"],
+        correcta: "Impresionar a los invitados"
+      },
+      {
+        enunciado: "Texto: 'Aunque el camino era largo y empinado, los excursionistas continuaron sin quejarse.'<br><br>¿Qué revela el texto sobre los excursionistas?",
+        opciones: ["Se perdieron", "Eran resistentes", "Iban de paseo", "Regresaron a casa"],
+        correcta: "Eran resistentes"
+      },
+      {
+        enunciado: "Texto: 'El anciano solía sentarse en el mismo banco del parque, observando a los niños jugar.'<br><br>¿Qué hábito tenía el anciano?",
+        opciones: ["Jugar con los niños", "Contar historias", "Sentarse en un banco", "Caminar por el parque"],
+        correcta: "Sentarse en un banco"
+      },
+      {
+        enunciado: "Texto: 'La biblioteca permanecía en silencio, salvo por el leve pasar de las páginas.'<br><br>¿Qué atmósfera transmite el texto?",
+        opciones: ["Caótica", "Ruidosa", "Tranquila", "Alegre"],
+        correcta: "Tranquila"
+      },
+      {
+        enunciado: "Texto: 'Aunque Pedro sabía que estaba mal, no pudo evitar contar el secreto.'<br><br>¿Qué conflicto interno se presenta?",
+        opciones: ["No escuchó el secreto", "Luchó entre hacerlo o no", "Se olvidó del secreto", "No conocía al dueño del secreto"],
+        correcta: "Luchó entre hacerlo o no"
+      },
+      {
+        enunciado: "Texto: 'El reloj marcaba las doce y el silencio se apoderó de la sala.'<br><br>¿Qué sugiere esta escena?",
+        opciones: ["Una celebración", "Algo importante ocurrió", "Todos estaban durmiendo", "Se acabó la reunión"],
+        correcta: "Algo importante ocurrió"
+      },
+      {
+        enunciado: "Texto: 'Lucía miraba las estrellas, soñando con ser astronauta algún día.'<br><br>¿Qué desea Lucía?",
+        opciones: ["Dormir", "Conocer el espacio", "Viajar en tren", "Leer libros de ciencia"],
+        correcta: "Conocer el espacio"
+      },
+      {
+        enunciado: "Texto: 'El niño dejó caer el florero accidentalmente, pero rápidamente pidió disculpas.'<br><br>¿Qué actitud mostró el niño?",
+        opciones: ["Desinterés", "Rebeldía", "Responsabilidad", "Inmadurez"],
+        correcta: "Responsabilidad"
+      },
+      {
+        enunciado: "Texto: 'Cada gota que caía del techo resonaba en la habitación vacía.'<br><br>¿Qué sensación produce la descripción?",
+        opciones: ["Movimiento", "Tensión", "Soledad", "Felicidad"],
+        correcta: "Soledad"
+      },
+      {
+        enunciado: "Texto: 'Tras muchos intentos fallidos, finalmente logró resolver el problema matemático.'<br><br>¿Qué valor representa esta acción?",
+        opciones: ["Tolerancia", "Desesperanza", "Perseverancia", "Orgullo"],
+        correcta: "Perseverancia"
+      },
+      {
+        enunciado: "Texto: 'Sara no trajo su paraguas, así que se mojó completamente.'<br><br>¿Cuál fue la causa de que se mojara?",
+        opciones: ["Olvidó su mochila", "No tenía impermeable", "Llovía y no tenía paraguas", "Se cayó al río"],
+        correcta: "Llovía y no tenía paraguas"
+      },
+      {
+        enunciado: "Texto: 'Cada mañana, Tomás se despierta antes del amanecer para alimentar a sus gallinas.'<br><br>¿Qué indica esto sobre Tomás?",
+        opciones: ["Es impuntual", "Le gusta dormir tarde", "Tiene una rutina responsable", "Trabaja en una oficina"],
+        correcta: "Tiene una rutina responsable"
+      },
+      {
+        enunciado: "Texto: 'Al ver la pintura, todos quedaron en silencio. Era como si el tiempo se hubiera detenido.'<br><br>¿Qué causó ese efecto en los observadores?",
+        opciones: ["El frío", "La pintura impactante", "La falta de luz", "El aburrimiento"],
+        correcta: "La pintura impactante"
+      },
+      {
+        enunciado: "Texto: 'El científico trabajó durante años sin reconocimiento, pero siguió adelante por pasión.'<br><br>¿Qué lo motivaba a continuar su trabajo?",
+        opciones: ["El dinero", "El reconocimiento", "La fama", "La pasión"],
+        correcta: "La pasión"
+      }
+    ];
+
+    function mezclarArreglo(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    const contenedor = document.getElementById("contenedor");
+    const preguntasAleatorias = mezclarArreglo([...preguntas]).slice(0, 20);
+
+    preguntasAleatorias.forEach(pregunta => {
+      const div = document.createElement("div");
+      div.className = "pregunta";
+
+      const p = document.createElement("p");
+      p.innerHTML = pregunta.enunciado;
+      div.appendChild(p);
+
+      const resultado = document.createElement("div");
+      resultado.className = "respuesta";
+
+      pregunta.opciones.forEach(opcion => {
+        const btn = document.createElement("button");
+        btn.textContent = opcion;
+        btn.onclick = () => {
+          resultado.textContent = opcion === pregunta.correcta ? "✅ ¡Correcto!" : "❌ Incorrecto";
+          resultado.style.color = opcion === pregunta.correcta ? "green" : "red";
+        };
+        div.appendChild(btn);
+      });
+
+      div.appendChild(resultado);
+      contenedor.appendChild(div);
+    });
+  </script>
+<a href="comunicacion.html" 
+   style="display:inline-block; margin-top:20px; padding:10px 15px; background:#f39c12; color:white; text-decoration:none; border-radius:5px;">
+   ⬅ Regresar
+</a>
+</body>
+</html>

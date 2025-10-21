@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Razonamiento Avanzado - Deducción Lógica</title>
+  <style>
+    body {
+      font-family: 'Verdana', sans-serif;
+      background: linear-gradient(135deg, #ffeb99, #ffd1dc);
+      padding: 20px;
+      text-align: center;
+      margin: 0;
+    }
+    h1 {
+      color: #2c3e50;
+      font-size: 2.2em;
+      margin-bottom: 10px;
+    }
+    .avatar {
+      margin: 15px;
+      font-size: 2em;
+    }
+    .barra-progreso {
+      width: 80%;
+      height: 20px;
+      background: #ddd;
+      border-radius: 10px;
+      margin: 10px auto;
+      overflow: hidden;
+    }
+    .progreso {
+      height: 100%;
+      width: 0%;
+      background: #28a745;
+      transition: width 0.3s;
+    }
+    .pregunta {
+      background-color: #ffffff;
+      padding: 20px;
+      margin: 20px auto;
+      max-width: 500px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      border-top: 5px solid #f39c12;
+      transition: transform 0.2s ease;
+    }
+    .pregunta:hover {
+      transform: scale(1.02);
+    }
+    .pregunta p {
+      font-size: 1.4em;
+      font-weight: bold;
+      color: #34495e;
+      margin-bottom: 15px;
+    }
+    button {
+      margin: 6px;
+      padding: 10px 18px;
+      font-size: 1em;
+      border: none;
+      border-radius: 8px;
+      background-color: #f39c12;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    button:hover {
+      background-color: #d9820f;
+      transform: translateY(-2px);
+    }
+    .respuesta {
+      margin-top: 10px;
+      font-weight: bold;
+      font-size: 1.2em;
+    }
+    .estrella {
+      font-size: 1.8em;
+      color: gold;
+      animation: brillar 0.8s ease;
+    }
+    @keyframes brillar {
+      from { transform: scale(0.5); opacity: 0; }
+      to { transform: scale(1.2); opacity: 1; }
+    }
+    .cronometro {
+      font-size: 1.4em;
+      font-weight: bold;
+      color: #e74c3c;
+      margin-top: 10px;
+    }
+    .final {
+      display: none;
+      margin-top: 30px;
+    }
+    .regalo {
+      font-size: 5em;
+      cursor: pointer;
+      transition: transform 0.4s;
+    }
+    .regalo:hover {
+      transform: scale(1.2);
+    }
+    .sorpresa {
+      display: none;
+      font-size: 1.6em;
+      color: #27ae60;
+      margin-top: 20px;
+      animation: aparecer 1s ease;
+    }
+    @keyframes aparecer {
+      from { opacity: 0; transform: scale(0.5); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    #puntajeFinal {
+      font-size: 1.4em;
+      font-weight: bold;
+      margin-bottom: 15px;
+      color: #2980b9;
+    }
+  </style>
+</head>
+<body>
+  <h1>Razonamiento Avanzado: Deducción Lógica</h1>
+  <div class="avatar">👨‍🏫 Tu compañero de aventura</div>
+  <div class="barra-progreso">
+    <div class="progreso" id="progreso"></div>
+  </div>
+  <div class="cronometro" id="cronometro">Tiempo: 2:00</div>
+  <div id="contenedor"></div>
+
+  <div class="final" id="final">
+    <div id="puntajeFinal"></div>
+    <div class="regalo" onclick="abrirRegalo()">🎁</div>
+    <div class="sorpresa" id="sorpresa">🌟 ¡Excelente trabajo! ¡Sigue practicando y serás un maestro del razonamiento lógico! 🌟</div>
+  </div>
+
+  <script>
+    let correctas = 0;
+    let total = 20;
+    let tiempo = 120; // 2 minutos
+    const progresoBarra = document.getElementById("progreso");
+    const contenedor = document.getElementById("contenedor");
+    const final = document.getElementById("final");
+    const sorpresa = document.getElementById("sorpresa");
+    const puntajeFinal = document.getElementById("puntajeFinal");
+
+    const preguntas = [
+      { enunciado: "Si todos los lápices son útiles y algunos útiles son rojos, ¿puedes afirmar que algunos lápices son rojos?", opciones: ["Sí", "No", "Depende", "No se puede saber"], correcta: "No se puede saber" },
+      { enunciado: "María es más alta que Juan. Juan es más alto que Pedro. ¿Quién es el más bajo?", opciones: ["María", "Juan", "Pedro", "No se sabe"], correcta: "Pedro" },
+      { enunciado: "Si hoy es miércoles, ¿qué día será dentro de 15 días?", opciones: ["Jueves", "Viernes", "Miércoles", "Jueves"], correcta: "Jueves" },
+      { enunciado: "Todos los perros son mamíferos. Algunos mamíferos vuelan. ¿Algunos perros vuelan?", opciones: ["Sí", "No", "Depende", "No se puede saber"], correcta: "No se puede saber" },
+      { enunciado: "Carlos es menor que Ana, y Ana es menor que Julia. ¿Quién es la mayor?", opciones: ["Carlos", "Ana", "Julia", "No se sabe"], correcta: "Julia" },
+      { enunciado: "Si 4 amigos se reparten 12 caramelos en partes iguales, ¿cuántos recibe cada uno?", opciones: ["3", "4", "6", "12"], correcta: "3" },
+      { enunciado: "Si un tren sale a las 8:00 a.m. y tarda 2 horas y 30 minutos, ¿a qué hora llega?", opciones: ["10:00 a.m.", "10:30 a.m.", "9:30 a.m.", "11:00 a.m."], correcta: "10:30 a.m." },
+      { enunciado: "Si hoy es sábado, ¿qué día fue hace 3 días?", opciones: ["Miércoles", "Jueves", "Viernes", "Martes"], correcta: "Miércoles" },
+      { enunciado: "Laura tiene más libros que Sofía, y Sofía tiene más que Andrés. ¿Quién tiene menos libros?", opciones: ["Laura", "Sofía", "Andrés", "No se sabe"], correcta: "Andrés" },
+      { enunciado: "Si 5x = 20, ¿cuánto vale x?", opciones: ["2", "4", "5", "6"], correcta: "4" },
+      { enunciado: "Un triángulo tiene tres lados iguales. ¿Qué tipo de triángulo es?", opciones: ["Escaleno", "Isósceles", "Equilátero", "Rectángulo"], correcta: "Equilátero" },
+      { enunciado: "Si todos los estudiantes están cansados y Juan es estudiante, ¿Juan está cansado?", opciones: ["Sí", "No", "No se puede saber", "Depende"], correcta: "Sí" },
+      { enunciado: "Si 8 + x = 15, ¿cuánto es x?", opciones: ["6", "7", "8", "9"], correcta: "7" },
+      { enunciado: "Si 1 hora tiene 60 minutos, ¿cuántos minutos hay en 3 horas?", opciones: ["90", "120", "150", "180"], correcta: "180" },
+      { enunciado: "Pedro tiene más canicas que Juan, pero menos que Luis. ¿Quién tiene más canicas?", opciones: ["Pedro", "Juan", "Luis", "No se sabe"], correcta: "Luis" },
+      { enunciado: "Una semana tiene 7 días. ¿Cuántos días hay en 5 semanas?", opciones: ["35", "30", "25", "40"], correcta: "35" },
+      { enunciado: "Si el doble de un número es 12, ¿cuál es el número?", opciones: ["6", "4", "3", "12"], correcta: "6" },
+      { enunciado: "¿Cuál es el número que sigue en la serie: 2, 4, 8, 16, ?", opciones: ["20", "32", "24", "30"], correcta: "32" },
+      { enunciado: "Si hoy es domingo, ¿qué día será en 7 días?", opciones: ["Sábado", "Domingo", "Lunes", "Viernes"], correcta: "Domingo" },
+      { enunciado: "Si 9 + x = 14, ¿cuánto es x?", opciones: ["3", "4", "5", "6"], correcta: "5" }
+    ];
+
+    function mezclar(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    const preguntasAleatorias = mezclar([...preguntas]).slice(0, total);
+    preguntasAleatorias.forEach(pregunta => {
+      const div = document.createElement("div");
+      div.className = "pregunta";
+
+      const p = document.createElement("p");
+      p.textContent = pregunta.enunciado;
+      div.appendChild(p);
+
+      const resultado = document.createElement("div");
+      resultado.className = "respuesta";
+
+      pregunta.opciones.forEach(opcion => {
+        const btn = document.createElement("button");
+        btn.textContent = opcion;
+        btn.onclick = () => {
+          resultado.textContent = opcion === pregunta.correcta ? "✅ ¡Correcto!" : "❌ Incorrecto";
+          resultado.style.color = opcion === pregunta.correcta ? "green" : "red";
+          correctas++;
+          progresoBarra.style.width = (correctas / total * 100) + "%";
+          if (correctas === total) {
+            puntajeFinal.textContent = `✅ Respuestas correctas: ${correctas} de ${total}`;
+            final.style.display = "block";
+          }
+        };
+        div.appendChild(btn);
+      });
+
+      div.appendChild(resultado);
+      contenedor.appendChild(div);
+    });
+
+    let tiempoRestante = tiempo;
+    const cronometro = document.getElementById("cronometro");
+    const intervalo = setInterval(() => {
+      if (tiempoRestante <= 0) {
+        clearInterval(intervalo);
+        contenedor.style.display = "none";
+        puntajeFinal.textContent = `✅ Respuestas correctas: ${correctas} de ${total}`;
+        final.style.display = "block";
+      } else {
+        tiempoRestante--;
+        let min = Math.floor(tiempoRestante / 60);
+        let seg = tiempoRestante % 60;
+        cronometro.textContent = `Tiempo: ${min}:${seg < 10 ? "0" + seg : seg}`;
+      }
+    }, 1000);
+
+    function abrirRegalo() {
+      sorpresa.style.display = "block";
+    }
+  </script>
+
+  <a href="matematica.html" 
+     style="display:inline-block; margin-top:20px; padding:10px 15px; background:#f39c12; color:white; text-decoration:none; border-radius:5px;">
+     ⬅ Regresar
+  </a>
+</body>
+</html>
+

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto - Matcohis</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Estilo de la sección de bienvenida */
+        .welcome {
+            padding: 30px;
+            background-color: #fdfdfd;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .welcome:hover {
+            background-color: #f4f4f4;
+        }
+
+        .welcome h2 {
+            color: #2c3e50;
+            font-size: 2.5em;
+            font-family: 'Verdana', sans-serif;
+        }
+
+        .welcome p {
+            font-size: 1.2em;
+            line-height: 1.8;
+            color: #34495e;
+            font-family: 'Georgia', serif;
+        }
+
+        .welcome img {
+            border-radius: 12px;
+            margin-top: 20px;
+            transition: transform 0.3s ease-in-out;
+            width: 100%;
+            height: auto;
+        }
+
+        .welcome img:hover {
+            transform: scale(1.1);
+            opacity: 0.8;
+        }
+
+        .menu-toggle {
+            display: none;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #f0e68c;
+            transform: scale(1.1);
+        }
+
+        /* Estilos del formulario de contacto */
+        .contact-container {
+            max-width: 600px;
+            margin: 40px auto;
+            background-color: #fdfdfd;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+        }
+
+        .contact-form label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .contact-form input, .contact-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 1em;
+            font-family: 'Georgia', serif;
+        }
+
+        .contact-form button {
+            background-color: #fde094;
+            color: rgb(43, 37, 68);
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: background-color 0.3s ease;
+        }
+
+        .contact-form button:hover {
+            background-color: #eede4c;
+        }
+
+        .mensaje-exito {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 1.1em;
+            margin-top: 10px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>MATCOHIS</h1>
+    </header>
+    <nav>
+        <button class="menu-toggle" aria-label="Toggle menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <a href="index.html">Inicio</a>
+        <a href="matematica.html">Matemática</a>
+        <a href="comunicacion.html">Comunicación</a>
+        <a href="historia.html">Historia</a>
+        <a href="#">Contacto</a>
+    </nav>
+    <main>
+        <h2>Contáctanos</h2>
+        <p>Si tienes preguntas, deseas más información sobre nuestro contenido educativo o necesitas contactarnos, completa el formulario o utiliza los datos de contacto a continuación.</p>
+
+        <div class="contact-container">
+            <!-- Formulario de contacto -->
+            <form id="contactForm" class="contact-form" action="https://formsubmit.co/dianaestrellaasenciossifuentes@gmail.com" method="POST">
+                <label for="name">Nombre:</label>
+                <input type="text" id="name" name="name" placeholder="Tu nombre" required>
+
+                <label for="email">Correo Electrónico:</label>
+                <input type="email" id="email" name="email" placeholder="Tu correo electrónico" required>
+
+                <label for="message">Mensaje:</label>
+                <textarea id="message" name="message" rows="4" placeholder="Escribe tu mensaje aquí" required></textarea>
+
+                <button type="submit">Enviar Mensaje</button>
+
+                <!-- Campos ocultos -->
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_subject" value="Nuevo mensaje desde Matcohis">
+                <input type="hidden" name="_next" value="https://formsubmit.co/thanks">
+            </form>
+            <div id="successMessage" class="mensaje-exito">✅ ¡Tu mensaje ha sido enviado correctamente!</div>
+        </div>
+    </main>
+    <footer>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Mentes poderosas en acción - Sistema MATCOHIS | Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Script para limpiar el formulario y mostrar mensaje de éxito
+        const form = document.getElementById('contactForm');
+        const successMessage = document.getElementById('successMessage');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            fetch(form.action, {
+                method: form.method,
+                body: new FormData(form)
+            })
+            .then(response => {
+                if (response.ok) {
+                    form.reset(); // Limpia los campos
+                    successMessage.style.display = 'block'; // Muestra mensaje
+                    setTimeout(() => successMessage.style.display = 'none', 4000); // Oculta después de 4 seg
+                } else {
+                    alert('❌ Error al enviar el mensaje. Inténtalo nuevamente.');
+                }
+            })
+            .catch(error => alert('❌ Error al enviar el mensaje.'));
+        });
+    </script>
+</body>
+</html>

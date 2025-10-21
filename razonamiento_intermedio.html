@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Razonamiento Matemático Intermedio</title>
+  <style>
+    body {
+      font-family: 'Verdana', sans-serif;
+      background: linear-gradient(135deg, #ffeb99, #ffd1dc);
+      padding: 20px;
+      text-align: center;
+      margin: 0;
+    }
+    h1 {
+      color: #2c3e50;
+      font-size: 2.2em;
+      margin-bottom: 10px;
+    }
+    .avatar {
+      margin: 15px;
+      font-size: 2em;
+    }
+    .barra-progreso {
+      width: 80%;
+      height: 20px;
+      background: #ddd;
+      border-radius: 10px;
+      margin: 10px auto;
+      overflow: hidden;
+    }
+    .progreso {
+      height: 100%;
+      width: 0%;
+      background: #28a745;
+      transition: width 0.3s;
+    }
+    .pregunta {
+      background-color: #ffffff;
+      padding: 20px;
+      margin: 20px auto;
+      max-width: 500px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      border-top: 5px solid #f39c12;
+      transition: transform 0.2s ease;
+    }
+    .pregunta:hover {
+      transform: scale(1.02);
+    }
+    .pregunta p {
+      font-size: 1.4em;
+      font-weight: bold;
+      color: #34495e;
+      margin-bottom: 15px;
+    }
+    button {
+      margin: 6px;
+      padding: 10px 18px;
+      font-size: 1em;
+      border: none;
+      border-radius: 8px;
+      background-color: #f39c12;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    button:hover {
+      background-color: #d9820f;
+      transform: translateY(-2px);
+    }
+    .respuesta {
+      margin-top: 10px;
+      font-weight: bold;
+      font-size: 1.2em;
+    }
+    .estrella {
+      font-size: 1.8em;
+      color: gold;
+      animation: brillar 0.8s ease;
+    }
+    @keyframes brillar {
+      from { transform: scale(0.5); opacity: 0; }
+      to { transform: scale(1.2); opacity: 1; }
+    }
+    .cronometro {
+      font-size: 1.4em;
+      font-weight: bold;
+      color: #e74c3c;
+      margin-top: 10px;
+    }
+    .final {
+      display: none;
+      margin-top: 30px;
+    }
+    .regalo {
+      font-size: 5em;
+      cursor: pointer;
+      transition: transform 0.4s;
+    }
+    .regalo:hover {
+      transform: scale(1.2);
+    }
+    .sorpresa {
+      display: none;
+      font-size: 1.6em;
+      color: #27ae60;
+      margin-top: 20px;
+      animation: aparecer 1s ease;
+    }
+    @keyframes aparecer {
+      from { opacity: 0; transform: scale(0.5); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    #puntajeFinal {
+      font-size: 1.4em;
+      font-weight: bold;
+      margin-bottom: 15px;
+      color: #2980b9;
+    }
+  </style>
+</head>
+<body>
+  <h1>Razonamiento Matemático Intermedio</h1>
+  <div class="avatar">🧛‍♀ Tu compañero de aventura</div>
+  <div class="barra-progreso">
+    <div class="progreso" id="progreso"></div>
+  </div>
+  <div class="cronometro" id="cronometro">Tiempo: 2:00</div>
+  <div id="contenedor"></div>
+  <div class="final" id="final">
+    <div id="puntajeFinal"></div>
+    <div class="regalo" onclick="abrirRegalo()">🎁</div>
+    <div class="sorpresa" id="sorpresa">🌟🧛‍♀🌟 ¡Excelente trabajo! ¡Sigue practicando y mejorarás tu razonamiento! 🌟🧛‍♀🌟</div>
+  </div>
+
+  <script>
+    let correctas = 0;
+    const total = 20;
+    const tiempo = 120; // 2 minutos
+    const progresoBarra = document.getElementById("progreso");
+    const contenedor = document.getElementById("contenedor");
+    const final = document.getElementById("final");
+    const sorpresa = document.getElementById("sorpresa");
+    const puntajeFinal = document.getElementById("puntajeFinal");
+
+    function generarPregunta() {
+      const cantidadBase = Math.floor(Math.random() * 5 + 2) * 2;
+      const precioBase = Math.floor(Math.random() * 10 + 5);
+      const cantidadPregunta = cantidadBase * Math.floor(Math.random() * 3 + 2);
+      const respuesta = (precioBase / cantidadBase) * cantidadPregunta;
+      const preguntaTexto = `Si ${cantidadBase} manzanas cuestan S/${precioBase}, ¿cuánto costarán ${cantidadPregunta} manzanas?`;
+
+      const opciones = new Set([respuesta.toFixed(2)]);
+      while (opciones.size < 4) {
+        const variación = Math.floor(Math.random() * 5 - 2);
+        const valorFalso = (respuesta + variación).toFixed(2);
+        if (valorFalso > 0) opciones.add(valorFalso);
+      }
+      const opcionesArray = Array.from(opciones).sort(() => Math.random() - 0.5);
+
+      const div = document.createElement("div");
+      div.className = "pregunta";
+
+      const p = document.createElement("p");
+      p.textContent = preguntaTexto;
+      div.appendChild(p);
+
+      const resultado = document.createElement("div");
+      resultado.className = "respuesta";
+      div.appendChild(resultado);
+
+      opcionesArray.forEach(opcion => {
+        const btn = document.createElement("button");
+        btn.textContent = `S/ ${opcion}`;
+        btn.onclick = () => {
+          if (opcion == respuesta.toFixed(2)) {
+            correctas++;
+            resultado.innerHTML = "✅ ¡Correcto! <span class='estrella'>⭐</span>";
+            resultado.style.color = "green";
+          } else {
+            resultado.textContent = "❌ Incorrecto";
+            resultado.style.color = "red";
+          }
+          progresoBarra.style.width = (correctas / total * 100) + "%";
+          if (correctas === total) {
+            puntajeFinal.textContent = `✅ Respuestas correctas: ${correctas} de ${total}`;
+            final.style.display = "block";
+          }
+        };
+        div.appendChild(btn);
+      });
+
+      return div;
+    }
+
+    for (let i = 0; i < total; i++) {
+      contenedor.appendChild(generarPregunta());
+    }
+
+    let tiempoRestante = tiempo;
+    const cronometro = document.getElementById("cronometro");
+    const intervalo = setInterval(() => {
+      if (tiempoRestante <= 0) {
+        clearInterval(intervalo);
+        contenedor.style.display = "none";
+        puntajeFinal.textContent = `✅ Respuestas correctas: ${correctas} de ${total}`;
+        final.style.display = "block";
+      } else {
+        tiempoRestante--;
+        let min = Math.floor(tiempoRestante / 60);
+        let seg = tiempoRestante % 60;
+        cronometro.textContent = `Tiempo: ${min}:${seg < 10 ? "0" + seg : seg}`;
+      }
+    }, 1000);
+
+    function abrirRegalo() {
+      sorpresa.style.display = "block";
+    }
+  </script>
+
+  <a href="matematica.html" 
+     style="display:inline-block; margin-top:20px; padding:10px 15px; background:#f39c12; color:white; text-decoration:none; border-radius:5px;">
+     ⬅ Regresar
+  </a>
+</body>
+</html>

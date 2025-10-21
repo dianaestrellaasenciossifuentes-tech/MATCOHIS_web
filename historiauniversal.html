@@ -1,0 +1,265 @@
+<!DOCTYPE html> 
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Historia Universal - Civilización Egipcia</title>
+   <style>
+    body {
+      font-family: 'Verdana', sans-serif;
+      background: linear-gradient(135deg, #ffeb99, #dfc0fc);
+      padding: 20px;
+      text-align: center;
+      margin: 0;
+    }
+    h1 {
+      color: #2c3e50;
+      font-size: 2.2em;
+      margin-bottom: 10px;
+    }
+    .avatar {
+      margin: 15px;
+      font-size: 2.5em;
+    }
+    .barra-progreso {
+      width: 80%;
+      height: 20px;
+      background: #ddd;
+      border-radius: 10px;
+      margin: 10px auto;
+      overflow: hidden;
+    }
+    .progreso {
+      height: 100%;
+      width: 0%;
+      background: #28a745;
+      transition: width 0.3s;
+    }
+    .explicacion {
+      background: #fff5cc;
+      border: 2px dashed #f4c542;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 20px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+      font-size: 1.1em;
+    }
+    .pregunta {
+      background-color: #ffffff;
+      padding: 20px;
+      margin: 20px auto;
+      max-width: 600px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      border-top: 5px solid #f39c12;
+      transition: transform 0.2s ease;
+    }
+    .pregunta:hover {
+      transform: scale(1.02);
+    }
+    .pregunta p {
+      font-size: 1.4em;
+      font-weight: bold;
+      color: #34495e;
+      margin-bottom: 15px;
+    }
+    button {
+      margin: 6px;
+      padding: 10px 18px;
+      font-size: 1em;
+      border: none;
+      border-radius: 8px;
+      background-color: #f39c12;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    button:hover {
+      background-color: #d9820f;
+      transform: translateY(-2px);
+    }
+    .respuesta {
+      margin-top: 10px;
+      font-weight: bold;
+      font-size: 1.2em;
+    }
+    .cronometro {
+      font-size: 1.4em;
+      font-weight: bold;
+      color: #e74c3c;
+      margin-top: 10px;
+    }
+    .final {
+      display: none;
+      margin-top: 30px;
+    }
+    .regalo {
+      font-size: 5em;
+      cursor: pointer;
+      transition: transform 0.4s;
+    }
+    .regalo:hover {
+      transform: scale(1.2);
+    }
+    .sorpresa {
+      display: none;
+      font-size: 1.6em;
+      color: #27ae60;
+      margin-top: 20px;
+      animation: aparecer 1s ease;
+    }
+    @keyframes aparecer {
+      from { opacity: 0; transform: scale(0.5); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    #puntajeFinal {
+      font-size: 1.4em;
+      font-weight: bold;
+      margin-bottom: 15px;
+      color: #2980b9;
+    }
+  </style>
+</head>
+<body>
+  <h1>Historia Universal: Civilización Egipcia</h1>
+  <div class="avatar">🏺 Tu guía egipcio</div>
+
+  <div class="barra-progreso">
+    <div class="progreso" id="progreso"></div>
+  </div>
+
+  <div class="cronometro" id="cronometro">Tiempo: 7:00</div>
+
+  <div class="explicacion">
+    <h3>La Civilización Egipcia: Un legado del río Nilo</h3>
+    <p>
+      La civilización egipcia fue una de las más importantes y antiguas de la historia, y se desarrolló en el noreste de África, a orillas del río Nilo. 
+      Esta cultura floreció durante más de 3,000 años, hasta que fue conquistada por el Imperio Romano.
+    </p>
+    <p>
+      El río Nilo fue fundamental para la agricultura, el transporte y la vida cotidiana. Egipto era gobernado por faraones, considerados dioses vivientes, 
+      y se destacaron en religión, arquitectura, escritura y ciencias.
+    </p>
+    <p>
+      ¡Ahora ponte a prueba con estas 20 preguntas sobre esta fascinante civilización!
+    </p>
+  </div>
+
+  <div id="contenedor"></div>
+
+  <div class="final" id="final">
+    <div id="puntajeFinal"></div>
+    <div class="regalo" onclick="abrirRegalo()">🎁</div>
+    <div class="sorpresa" id="sorpresa">✨🏺 ¡Excelente trabajo aprendiendo sobre Egipto! 🏺✨</div>
+  </div>
+
+  <script>
+    const preguntas = [
+      {enunciado:"¿En qué continente se desarrolló la civilización egipcia?",opciones:["Asia","Europa","África","América"],correcta:"África"},
+      {enunciado:"¿Qué río fue fundamental para el desarrollo de Egipto?",opciones:["Tigris","Amazonas","Eúfrates","Nilo"],correcta:"Nilo"},
+      {enunciado:"¿Cómo se llama el gobernante supremo del Antiguo Egipto?",opciones:["Emperador","Rey Sol","Faraón","Khan"],correcta:"Faraón"},
+      {enunciado:"¿Qué construcciones egipcias servían como tumbas reales?",opciones:["Obeliscos","Pirámides","Templos","Murallas"],correcta:"Pirámides"},
+      {enunciado:"¿Qué tipo de escritura usaron los egipcios?",opciones:["Cuneiforme","Jeroglífica","Latina","Árabe"],correcta:"Jeroglífica"},
+      {enunciado:"¿Cuántos años aproximadamente duró la civilización egipcia?",opciones:["500","1000","3000","100"],correcta:"3000"},
+      {enunciado:"¿Qué cultivaban los egipcios gracias a las crecidas del Nilo?",opciones:["Maíz","Trigo","Papa","Frijoles"],correcta:"Trigo"},
+      {enunciado:"¿Cómo consideraban los egipcios al faraón?",opciones:["Un líder común","Un profeta","Un dios viviente","Un sabio"],correcta:"Un dios viviente"},
+      {enunciado:"¿Cuál es una de las pirámides más famosas?",opciones:["Chichén Itzá","Pirámide de Giza","Pirámide del Sol","Zigurat de Ur"],correcta:"Pirámide de Giza"},
+      {enunciado:"¿Qué hacían con los muertos en el Antiguo Egipto?",opciones:["Los incineraban","Los momificaban","Los arrojaban al río","Los enterraban sin ceremonia"],correcta:"Los momificaban"},
+      {enunciado:"¿Cuál era una de las ciencias avanzadas en Egipto?",opciones:["Astronomía cuántica","Medicina","Genética","Ingeniería informática"],correcta:"Medicina"},
+      {enunciado:"¿Qué tipo de religión practicaban los egipcios?",opciones:["Monoteísta","Cristiana","Politeísta","Ateísta"],correcta:"Politeísta"},
+      {enunciado:"¿Qué animal era sagrado para los egipcios?",opciones:["Vaca","Serpiente","Gato","Caballo"],correcta:"Gato"},
+      {enunciado:"¿Cuál de estos dioses egipcios era el dios del sol?",opciones:["Osiris","Ra","Anubis","Horus"],correcta:"Ra"},
+      {enunciado:"¿Qué función cumplía el Nilo además de dar agua?",opciones:["Campo de batalla","Canal de transporte","Lugar turístico","Ninguna"],correcta:"Canal de transporte"},
+      {enunciado:"¿Qué herramienta matemática usaban para construir las pirámides?",opciones:["Compás","Reglas de geometría","Cinta métrica","Ninguna"],correcta:"Reglas de geometría"},
+      {enunciado:"¿Qué importante piedra ayudó a descifrar los jeroglíficos?",opciones:["Piedra del Sol","Piedra de Rosetta","Piedra angular","Piedra negra"],correcta:"Piedra de Rosetta"},
+      {enunciado:"¿Quién fue una de las mujeres más famosas del Antiguo Egipto?",opciones:["Isabel I","Juana de Arco","Cleopatra","Hipatia"],correcta:"Cleopatra"},
+      {enunciado:"¿Con qué imperio terminó la civilización egipcia antigua?",opciones:["Imperio Griego","Imperio Persa","Imperio Romano","Imperio Inca"],correcta:"Imperio Romano"},
+      {enunciado:"¿Qué nos permite conocer hoy en día la vida en el Antiguo Egipto?",opciones:["Cómics","Documentos escritos","Jeroglíficos y momias","Redes sociales"],correcta:"Jeroglíficos y momias"}
+    ];
+
+    function mezclarArreglo(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    let correctas = 0;
+    const total = 20;
+    let tiempoRestante = 420; // 7 min
+    const progresoBarra = document.getElementById("progreso");
+    const contenedor = document.getElementById("contenedor");
+    const final = document.getElementById("final");
+    const puntajeFinal = document.getElementById("puntajeFinal");
+    const cronometro = document.getElementById("cronometro");
+
+    const preguntasAleatorias = mezclarArreglo([...preguntas]).slice(0, total);
+
+    preguntasAleatorias.forEach(pregunta => {
+      const div = document.createElement("div");
+      div.className = "pregunta";
+
+      const p = document.createElement("p");
+      p.innerHTML = pregunta.enunciado;
+      div.appendChild(p);
+
+      const resultado = document.createElement("div");
+      resultado.className = "respuesta";
+
+      pregunta.opciones.forEach(opcion => {
+        const btn = document.createElement("button");
+        btn.textContent = opcion;
+        btn.onclick = () => {
+          if (opcion === pregunta.correcta) {
+            correctas++;
+            resultado.textContent = "✅ ¡Correcto!";
+            resultado.style.color = "green";
+          } else {
+            resultado.textContent = "❌ Incorrecto";
+            resultado.style.color = "red";
+          }
+          progresoBarra.style.width = (correctas / total * 100) + "%";
+
+          if (correctas === total) {
+            finalizarJuego();
+          }
+        };
+        div.appendChild(btn);
+      });
+
+      div.appendChild(resultado);
+      contenedor.appendChild(div);
+    });
+
+    function finalizarJuego() {
+      contenedor.style.display = "none";
+      puntajeFinal.textContent = `✅ Respuestas correctas: ${correctas} de ${total}`;
+      final.style.display = "block";
+      clearInterval(intervalo);
+    }
+
+    const intervalo = setInterval(() => {
+      if (tiempoRestante <= 0) {
+        finalizarJuego();
+      } else {
+        tiempoRestante--;
+        let min = Math.floor(tiempoRestante / 60);
+        let seg = tiempoRestante % 60;
+        cronometro.textContent = `Tiempo: ${min}:${seg < 10 ? "0" + seg : seg}`;
+      }
+    }, 1000);
+
+    function abrirRegalo() {
+      document.getElementById("sorpresa").style.display = "block";
+    }
+  </script>
+
+  <a href="historia.html" 
+     style="display:inline-block; margin-top:20px; padding:10px 15px; background:#f39c12; color:white; text-decoration:none; border-radius:5px;">
+     ⬅ Regresar
+  </a>
+</body>
+</html>
+

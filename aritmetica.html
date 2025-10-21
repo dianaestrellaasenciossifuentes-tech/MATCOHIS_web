@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Juego Aritmética - MATCOHIS</title>
+  <style>
+    body {
+      font-family: 'Verdana', sans-serif;
+      background: linear-gradient(135deg, #ffeb99, #ffd1dc);
+      padding: 20px;
+      text-align: center;
+      margin: 0;
+    }
+    h1 {
+      color: #2c3e50;
+      font-size: 2.2em;
+      margin-bottom: 10px;
+    }
+    .barra-progreso {
+      width: 80%;
+      height: 20px;
+      background: #ddd;
+      border-radius: 10px;
+      margin: 10px auto;
+      overflow: hidden;
+    }
+    .progreso {
+      height: 100%;
+      width: 0%;
+      background: #28a745;
+      transition: width 0.3s;
+    }
+    .avatar {
+      margin: 15px;
+      font-size: 2em;
+    }
+    .pregunta {
+      background-color: #ffffff;
+      padding: 20px;
+      margin: 20px auto;
+      max-width: 500px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      border-top: 5px solid #f39c12;
+      transition: transform 0.2s ease;
+    }
+    .pregunta:hover {
+      transform: scale(1.02);
+    }
+    .pregunta p {
+      font-size: 1.4em;
+      font-weight: bold;
+      color: #34495e;
+      margin-bottom: 15px;
+    }
+    button {
+      margin: 6px;
+      padding: 10px 18px;
+      font-size: 1em;
+      border: none;
+      border-radius: 8px;
+      background-color: #f39c12;
+      color: rgb(255, 255, 255);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    button:hover {
+      background-color: #d9820f;
+      transform: translateY(-2px);
+    }
+    .respuesta {
+      margin-top: 10px;
+      font-weight: bold;
+      font-size: 1.2em;
+    }
+    .estrella {
+      font-size: 1.8em;
+      color: gold;
+      animation: brillar 0.8s ease;
+    }
+    @keyframes brillar {
+      from { transform: scale(0.5); opacity: 0; }
+      to { transform: scale(1.2); opacity: 1; }
+    }
+    .cronometro {
+      font-size: 1.4em;
+      font-weight: bold;
+      color: #e74c3c;
+      margin-top: 10px;
+    }
+
+    /* Caja de regalo */
+    .final {
+      display: none;
+      margin-top: 30px;
+    }
+    .regalo {
+      font-size: 5em;
+      cursor: pointer;
+      transition: transform 0.4s;
+    }
+    .regalo:hover {
+      transform: scale(1.2);
+    }
+    .sorpresa {
+      display: none;
+      font-size: 1.6em;
+      color: #27ae60;
+      margin-top: 20px;
+      animation: aparecer 1s ease;
+    }
+    @keyframes aparecer {
+      from { opacity: 0; transform: scale(0.5); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    #puntajeFinal {
+      font-size: 1.4em;
+      font-weight: bold;
+      margin-bottom: 15px;
+      color: #2980b9;
+    }
+  </style>
+</head>
+<body>
+  <h1>Juego de Aritmética</h1>
+  <div class="avatar">🦊 Tu compañero de aventura</div>
+
+  <!-- Barra de progreso -->
+  <div class="barra-progreso">
+    <div class="progreso" id="progreso"></div>
+  </div>
+
+  <!-- Cronómetro -->
+  <div class="cronometro" id="cronometro">Tiempo: 2:00</div>
+
+  <div id="contenedor"></div>
+  <div id="historia"></div>
+  <div id="minijuego"></div>
+
+  <!-- Final motivador -->
+  <div class="final" id="final">
+    <h2>🌟 ¡Muy bien, diste tu mejor esfuerzo! 🌟</h2>
+    <div id="puntajeFinal"></div>
+    <div class="regalo" onclick="abrirRegalo()">🎁</div>
+    <div class="sorpresa" id="sorpresa">🎉 “¡Tú puedes lograr todo lo que imaginas, porque en ti vive un campeón!” 🧮💡</div>
+  </div>
+
+  <script>
+    let correctas = 0;
+    let total = 20;
+    let nivel = 1;
+    let tiempo = 120; // ⏰ ahora solo 2 minutos en segundos
+
+    const progresoBarra = document.getElementById("progreso");
+    const historia = document.getElementById("historia");
+    const minijuego = document.getElementById("minijuego");
+    const final = document.getElementById("final");
+    const sorpresa = document.getElementById("sorpresa");
+    const puntajeFinal = document.getElementById("puntajeFinal");
+
+    // Sonidos
+    const sonidoBien = new Audio("https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg");
+    const sonidoMal = new Audio("https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg");
+
+    // Cronómetro
+    function iniciarCronometro() {
+      const cronometro = document.getElementById("cronometro");
+      const intervalo = setInterval(() => {
+        if (tiempo <= 0) {
+          clearInterval(intervalo);
+          document.getElementById("contenedor").style.display = "none";
+          puntajeFinal.textContent = `✅ Respuestas correctas: ${correctas} de ${total}`;
+          final.style.display = "block"; // mostrar frase motivadora + regalo
+        } else {
+          tiempo--;
+          let min = Math.floor(tiempo / 60);
+          let seg = tiempo % 60;
+          cronometro.textContent = `Tiempo: ${min}:${seg < 10 ? "0"+seg : seg}`;
+        }
+      }, 1000);
+    }
+
+    // Crear preguntas
+    function crearPregunta() {
+      const a = Math.floor(Math.random() * 50 + 1);
+      const b = Math.floor(Math.random() * 50 + 1);
+      const esSuma = Math.random() > 0.5;
+      const signo = esSuma ? '+' : '-';
+      const resultadoCorrecto = esSuma ? a + b : a - b;
+
+      const opciones = new Set([resultadoCorrecto]);
+      while (opciones.size < 4) {
+        let falsa = resultadoCorrecto + Math.floor(Math.random() * 21 - 10);
+        if (falsa !== resultadoCorrecto) opciones.add(falsa);
+      }
+
+      const opcionesArray = Array.from(opciones).sort(() => Math.random() - 0.5);
+
+      const div = document.createElement("div");
+      div.className = "pregunta";
+      const p = document.createElement("p");
+      p.textContent = `¿Cuánto es ${a} ${signo} ${b}?`;
+      div.appendChild(p);
+
+      opcionesArray.forEach(valor => {
+        const btn = document.createElement("button");
+        btn.textContent = valor;
+btn.onclick = () => {
+  if (valor === resultadoCorrecto) {
+    correctas++;
+    sonidoBien.play();   // ✅ AQUÍ SUENA CUANDO ES CORRECTO
+    respuesta.innerHTML = "✅ ¡Correcto! <span class='estrella'>⭐</span>";
+    respuesta.style.color = "green";
+  } else {
+    sonidoMal.play();    // ❌ AQUÍ SUENA CUANDO ES INCORRECTO
+    respuesta.textContent = "❌ Incorrecto";
+    respuesta.style.color = "red";
+  }
+  actualizarProgreso();
+};
+
+        div.appendChild(btn);
+      });
+
+      const respuesta = document.createElement("div");
+      respuesta.className = "respuesta";
+      div.appendChild(respuesta);
+
+      return div;
+    }
+
+    // Progreso
+    function actualizarProgreso() {
+      let porcentaje = (correctas / total) * 100;
+      progresoBarra.style.width = porcentaje + "%";
+
+      if (correctas >= total) {
+        nivel++;
+        correctas = 0;
+        mostrarHistoria();
+      }
+    }
+
+    // Historia por nivel
+    function mostrarHistoria() {
+      historia.innerHTML = `<h2>📖 Nivel ${nivel} superado</h2>
+      <p>¡Has ayudado a tu avatar a cruzar un río lleno de sumas y restas! 🚀</p>`;
+      if (nivel === 3) {
+        mostrarMinijuego();
+      }
+    }
+
+    // Abrir regalo
+    function abrirRegalo() {
+      sorpresa.style.display = "block";
+    }
+
+    // Inicializar
+    const contenedor = document.getElementById("contenedor");
+    for (let i = 0; i < total; i++) {
+      contenedor.appendChild(crearPregunta());
+    }
+    iniciarCronometro();
+  </script>
+
+  <a href="matematica.html" 
+     style="display:inline-block; margin-top:20px; padding:10px 15px; background:#f39c12; color:white; text-decoration:none; border-radius:5px;">
+     ⬅ Regresar
+  </a>
+</body>
+</html>

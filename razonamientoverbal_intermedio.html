@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Razonamiento Verbal - Término Excluido</title>
+  <style>
+    body {
+      font-family: 'Verdana', sans-serif;
+      background: linear-gradient(135deg, #ffeb99, #b3e5fc);
+      padding: 20px;
+      text-align: center;
+      margin: 0;
+    }
+    h1 {
+      color: #2c3e50;
+      font-size: 2.2em;
+      margin-bottom: 10px;
+    }
+    .avatar {
+      margin: 15px;
+      font-size: 2em;
+    }
+    .barra-progreso {
+      width: 80%;
+      height: 20px;
+      background: #ddd;
+      border-radius: 10px;
+      margin: 10px auto;
+      overflow: hidden;
+    }
+    .progreso {
+      height: 100%;
+      width: 0%;
+      background: #28a745;
+      transition: width 0.3s;
+    }
+    .explicacion {
+      background: #fff5cc;
+      border: 2px dashed #f4c542;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 20px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+      font-size: 1.1em;
+    }
+    .pregunta {
+      background-color: #ffffff;
+      padding: 20px;
+      margin: 20px auto;
+      max-width: 600px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      border-top: 5px solid #f39c12;
+      transition: transform 0.2s ease;
+    }
+    .pregunta:hover {
+      transform: scale(1.02);
+    }
+    .pregunta p {
+      font-size: 1.4em;
+      font-weight: bold;
+      color: #34495e;
+      margin-bottom: 15px;
+    }
+    button {
+      margin: 6px;
+      padding: 10px 18px;
+      font-size: 1em;
+      border: none;
+      border-radius: 8px;
+      background-color: #f39c12;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    button:hover {
+      background-color: #d9820f;
+      transform: translateY(-2px);
+    }
+    .respuesta {
+      margin-top: 10px;
+      font-weight: bold;
+      font-size: 1.2em;
+    }
+    .cronometro {
+      font-size: 1.4em;
+      font-weight: bold;
+      color: #e74c3c;
+      margin-top: 10px;
+    }
+    .final {
+      display: none;
+      margin-top: 30px;
+    }
+    .regalo {
+      font-size: 5em;
+      cursor: pointer;
+      transition: transform 0.4s;
+    }
+    .regalo:hover {
+      transform: scale(1.2);
+    }
+    .sorpresa {
+      display: none;
+      font-size: 1.6em;
+      color: #27ae60;
+      margin-top: 20px;
+      animation: aparecer 1s ease;
+    }
+    @keyframes aparecer {
+      from { opacity: 0; transform: scale(0.5); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    #puntajeFinal {
+      font-size: 1.4em;
+      font-weight: bold;
+      margin-bottom: 15px;
+      color: #2980b9;
+    }
+  </style>
+</head>
+<body>
+  <h1>Razonamiento Verbal: Término Excluido</h1>
+  <div class="avatar">👨‍🏫 Pitágoras el matemático</div>
+
+  <div class="barra-progreso">
+    <div class="progreso" id="progreso"></div>
+  </div>
+
+  <div class="cronometro" id="cronometro">Tiempo: 2:30</div>
+
+  <div class="explicacion">
+    <h3>¿Qué es el término excluido?</h3>
+    <p>Consiste en identificar la palabra que no pertenece al conjunto, porque es diferente en su significado, uso o categoría.</p>
+    <p>Por ejemplo: <em>León, Tigre, Pato, Pantera → <strong>Pato</strong> (es un ave, los demás son felinos).</em></p>
+    <p>¡Resuelve los siguientes 20 ejercicios!</p>
+  </div>
+
+  <div id="contenedor"></div>
+
+  <div class="final" id="final">
+    <div id="puntajeFinal"></div>
+    <div class="regalo" onclick="abrirRegalo()">🎁</div>
+    <div class="sorpresa" id="sorpresa">✨📘 ¡Excelente trabajo practicando el razonamiento verbal! 📘✨</div>
+  </div>
+
+  <script>
+    const preguntas = [
+      { enunciado: "¿Cuál es el término excluido?", opciones: ["Ópera", "Rock", "Jazz", "Llave inglesa"], correcta: "Llave inglesa" },
+      { enunciado: "¿Cuál no pertenece al grupo?", opciones: ["Triángulo", "Hexágono", "Prisma", "Canela"], correcta: "Canela" },
+      { enunciado: "¿Qué palabra es diferente a las demás?", opciones: ["Madrid", "Bogotá", "Tokio", "Lima"], correcta: "Lima" },
+      { enunciado: "Elige el término que no encaja:", opciones: ["Agua", "Refresco", "Café", "Helados"], correcta: "Helados" },
+      { enunciado: "¿Cuál es diferente?", opciones: ["Saturno", "Cobre", "Mercurio", "Marte"], correcta: "Cobre" },
+      { enunciado: "¿Cuál es el término excluido?", opciones: ["Cuaderno", "Compás", "Regla", "Tostadora"], correcta: "Tostadora" },
+      { enunciado: "¿Cuál no encaja en el grupo?", opciones: ["Lunes", "Viernes", "Semana", "Domingo"], correcta: "Semana" },
+      { enunciado: "¿Qué palabra no pertenece?", opciones: ["Oxígeno", "Hidrógeno", "Carbono", "Célula"], correcta: "Célula" },
+      { enunciado: "¿Cuál es diferente?", opciones: ["Jaguar", "Leopardo", "Puma", "Pato"], correcta: "Pato" },
+      { enunciado: "Elige el término excluido:", opciones: ["Valores", "Principios", "Ética", "Taladro"], correcta: "Taladro" },
+      { enunciado: "¿Cuál no es una figura geométrica?", opciones: ["Trapecio", "Octágono", "Rombo", "Cucharón"], correcta: "Cucharón" },
+      { enunciado: "¿Cuál no es un sentimiento?", opciones: ["Empatía", "Rencor", "Amor", "Computadora"], correcta: "Computadora" },
+      { enunciado: "¿Cuál no pertenece al grupo?", opciones: ["Sinfonía", "Concierto", "Partitura", "Camioneta"], correcta: "Camioneta" },
+      { enunciado: "¿Cuál es el término diferente?", opciones: ["Protones", "Electrones", "Neutrones", "Periódico"], correcta: "Periódico" },
+      { enunciado: "¿Qué palabra no encaja?", opciones: ["Contabilidad", "Auditoría", "Finanzas", "Piedra"], correcta: "Piedra" },
+      { enunciado: "¿Cuál es el intruso?", opciones: ["Bufanda", "Guante", "Sombrero", "Ascensor"], correcta: "Ascensor" },
+      { enunciado: "¿Qué palabra es distinta a las otras?", opciones: ["Cóndor", "Águila", "Gavilán", "Motocicleta"], correcta: "Motocicleta" },
+      { enunciado: "¿Cuál no pertenece?", opciones: ["Sol", "Estrella", "Planeta", "Zanahoria"], correcta: "Zanahoria" },
+      { enunciado: "¿Cuál es el término excluido?", opciones: ["Neuronas", "Axón", "Sinapsis", "Monitor"], correcta: "Monitor" },
+      { enunciado: "¿Qué palabra es diferente?", opciones: ["Calor", "Frío", "Humedad", "Teléfono"], correcta: "Teléfono" }
+    ];
+
+    function mezclarArreglo(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    let correctas = 0;
+    const total = 20;
+    let tiempoRestante = 150; // 2 min 30 seg
+    const progresoBarra = document.getElementById("progreso");
+    const contenedor = document.getElementById("contenedor");
+    const final = document.getElementById("final");
+    const puntajeFinal = document.getElementById("puntajeFinal");
+    const cronometro = document.getElementById("cronometro");
+
+    const preguntasAleatorias = mezclarArreglo([...preguntas]).slice(0, total);
+
+    preguntasAleatorias.forEach(pregunta => {
+      const div = document.createElement("div");
+      div.className = "pregunta";
+
+      const p = document.createElement("p");
+      p.innerHTML = pregunta.enunciado;
+      div.appendChild(p);
+
+      const resultado = document.createElement("div");
+      resultado.className = "respuesta";
+
+      pregunta.opciones.forEach(opcion => {
+        const btn = document.createElement("button");
+        btn.textContent = opcion;
+        btn.onclick = () => {
+          if (opcion === pregunta.correcta) {
+            correctas++;
+            resultado.textContent = "✅ ¡Correcto!";
+            resultado.style.color = "green";
+          } else {
+            resultado.textContent = "❌ Incorrecto";
+            resultado.style.color = "red";
+          }
+          progresoBarra.style.width = (correctas / total * 100) + "%";
+
+          if (correctas === total) {
+            finalizarJuego();
+          }
+        };
+        div.appendChild(btn);
+      });
+
+      div.appendChild(resultado);
+      contenedor.appendChild(div);
+    });
+
+    function finalizarJuego() {
+      contenedor.style.display = "none";
+      puntajeFinal.textContent = `✅ Respuestas correctas: ${correctas} de ${total}`;
+      final.style.display = "block";
+      clearInterval(intervalo);
+    }
+
+    const intervalo = setInterval(() => {
+      if (tiempoRestante <= 0) {
+        finalizarJuego();
+      } else {
+        tiempoRestante--;
+        let min = Math.floor(tiempoRestante / 60);
+        let seg = tiempoRestante % 60;
+        cronometro.textContent = `Tiempo: ${min}:${seg < 10 ? "0" + seg : seg}`;
+      }
+    }, 1000);
+
+    function abrirRegalo() {
+      document.getElementById("sorpresa").style.display = "block";
+    }
+  </script>
+
+  <a href="comunicacion.html" 
+     style="display:inline-block; margin-top:20px; padding:10px 15px; background:#f39c12; color:white; text-decoration:none; border-radius:5px;">
+     ⬅ Regresar
+  </a>
+</body>
+</html>
+

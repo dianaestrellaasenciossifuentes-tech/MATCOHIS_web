@@ -1,0 +1,313 @@
+<!DOCTYPE html> 
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Lenguaje Avanzado - Sujeto y Predicado en Oraciones Compuestas</title>
+  <style>
+    body {
+      font-family: 'Verdana', sans-serif;
+      background: linear-gradient(135deg, #ffeb99, #b3e5fc);
+      padding: 20px;
+      text-align: center;
+      margin: 0;
+    }
+    h1 {
+      color: #2c3e50;
+      font-size: 2.2em;
+      margin-bottom: 10px;
+    }
+    .avatar {
+      margin: 15px;
+      font-size: 2em;
+    }
+    .barra-progreso {
+      width: 80%;
+      height: 20px;
+      background: #ddd;
+      border-radius: 10px;
+      margin: 10px auto;
+      overflow: hidden;
+    }
+    .progreso {
+      height: 100%;
+      width: 0%;
+      background: #28a745;
+      transition: width 0.3s;
+    }
+    .cronometro {
+      font-size: 1.4em;
+      font-weight: bold;
+      color: #e74c3c;
+      margin-top: 10px;
+    }
+    .explicacion {
+      background: #fff5cc;
+      border: 2px dashed #f4c542;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 20px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+      font-size: 1.1em;
+    }
+    .pregunta {
+      background-color: #ffffff;
+      padding: 20px;
+      margin: 20px auto;
+      max-width: 600px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      border-top: 5px solid #f39c12;
+      transition: transform 0.2s ease;
+    }
+    .pregunta:hover {
+      transform: scale(1.02);
+    }
+    .pregunta p {
+      font-size: 1.4em;
+      font-weight: bold;
+      color: #34495e;
+      margin-bottom: 15px;
+    }
+    button {
+      margin: 6px;
+      padding: 10px 18px;
+      font-size: 1em;
+      border: none;
+      border-radius: 8px;
+      background-color: #f39c12;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    button:hover {
+      background-color: #d9820f;
+      transform: translateY(-2px);
+    }
+    .respuesta {
+      margin-top: 10px;
+      font-weight: bold;
+      font-size: 1.2em;
+    }
+    .final {
+      display: none;
+      margin-top: 30px;
+    }
+    #puntajeFinal {
+      font-size: 1.4em;
+      font-weight: bold;
+      margin-bottom: 15px;
+      color: #2980b9;
+    }
+  </style>
+</head>
+<body>
+  <h1>Lenguaje Avanzado: Sujeto y Predicado en Oraciones Compuestas</h1>
+  <div class="avatar">👽 Tu guía extraterrestre</div>
+
+  <div class="barra-progreso">
+    <div class="progreso" id="progreso"></div>
+  </div>
+
+  <div class="cronometro" id="cronometro">Tiempo: 4:00</div>
+
+  <div class="explicacion">
+    <h3>¿Cómo identificar sujeto y predicado?</h3>
+    <p>En una oración compuesta, puedes encontrar más de un sujeto o predicado. Identificar correctamente las partes te ayudará a entender mejor su estructura.</p>
+    <p>Ejemplo: <em>“María cocina y Juan lava los platos.”</em><br>
+    Sujetos: <strong>María</strong>, <strong>Juan</strong> – Predicados: <strong>cocina</strong>, <strong>lava los platos</strong></p>
+    <p>¡Resuelve los siguientes 20 ejercicios identificando correctamente el sujeto o el predicado!</p>
+  </div>
+
+  <div id="contenedor"></div>
+
+  <div class="final" id="final">
+    <div id="puntajeFinal"></div>
+  </div>
+
+  <script>
+    const preguntas = [ 
+      // 👇 Mantengo las 20 preguntas originales
+      {
+        enunciado: "En la oración: 'Carlos estudia y su hermana pinta cuadros', ¿cuál es el sujeto compuesto?",
+        opciones: ["Carlos", "Carlos y su hermana", "Estudia y pinta cuadros", "Pinta cuadros"],
+        correcta: "Carlos y su hermana"
+      },
+      {
+        enunciado: "¿Cuál es el predicado compuesto en: 'El perro ladra y corre por el jardín'?",
+        opciones: ["El perro", "Ladra", "Corre por el jardín", "Ladra y corre por el jardín"],
+        correcta: "Ladra y corre por el jardín"
+      },
+      {
+        enunciado: "Oración: 'Luis juega al ajedrez y Pedro lee un libro'. ¿Cuál es el sujeto de la segunda proposición?",
+        opciones: ["Luis", "Pedro", "Luis y Pedro", "Lee un libro"],
+        correcta: "Pedro"
+      },
+      {
+        enunciado: "¿Qué parte corresponde al predicado de la oración: 'Mi padre cocina mientras mi madre limpia'?",
+        opciones: ["Mi padre", "Cocina y limpia", "Cocina mientras mi madre limpia", "Mi madre limpia"],
+        correcta: "Cocina mientras mi madre limpia"
+      },
+      {
+        enunciado: "En: 'Los niños juegan en el parque y sus padres los observan desde lejos', ¿cuál es el segundo sujeto?",
+        opciones: ["Los niños", "Juegan", "Sus padres", "Observan desde lejos"],
+        correcta: "Sus padres"
+      },
+      {
+        enunciado: "¿Cuál es el predicado de esta oración: 'El gato duerme y el perro ladra'?",
+        opciones: ["El gato y el perro", "Duerme y ladra", "Duerme", "El perro ladra"],
+        correcta: "Duerme y ladra"
+      },
+      {
+        enunciado: "Oración: 'Andrea canta mientras Laura baila'. ¿Cuál es el sujeto de la segunda proposición?",
+        opciones: ["Andrea", "Laura", "Andrea y Laura", "Canta y baila"],
+        correcta: "Laura"
+      },
+      {
+        enunciado: "¿Cuál es el predicado compuesto en: 'El profesor explica la lección y los alumnos toman apuntes'?",
+        opciones: ["El profesor y los alumnos", "Explica y toman apuntes", "Explica la lección y toman apuntes", "Explica la lección"],
+        correcta: "Explica la lección y toman apuntes"
+      },
+      {
+        enunciado: "En: 'Mis abuelos viajan mucho y mi tía los visita frecuentemente', ¿cuál es el primer sujeto?",
+        opciones: ["Mis abuelos", "Mi tía", "Viajan", "Visita frecuentemente"],
+        correcta: "Mis abuelos"
+      },
+      {
+        enunciado: "Oración: 'El viento soplaba fuerte y las ramas se movían sin control'. ¿Cuál es el predicado de la segunda proposición?",
+        opciones: ["Las ramas", "Soplaba fuerte", "Se movían sin control", "El viento y las ramas"],
+        correcta: "Se movían sin control"
+      },
+      {
+        enunciado: "¿Cuál es el sujeto en: 'Marcos y Julia estudian medicina y trabajan medio tiempo'?",
+        opciones: ["Marcos", "Julia", "Marcos y Julia", "Estudian medicina"],
+        correcta: "Marcos y Julia"
+      },
+      {
+        enunciado: "En: 'El niño ríe y la niña salta de alegría', ¿cuál es el predicado de la segunda parte?",
+        opciones: ["Ríe y salta", "El niño", "La niña salta de alegría", "Salta de alegría"],
+        correcta: "Salta de alegría"
+      },
+      {
+        enunciado: "¿Cuál es el sujeto en: 'Las olas rompen contra las rocas y el mar brama'?",
+        opciones: ["Las olas y el mar", "Las olas", "El mar", "Rompen y brama"],
+        correcta: "Las olas y el mar"
+      },
+      {
+        enunciado: "Oración: 'Camila toca el piano y su hermana canta'. ¿Qué parte es el predicado de la segunda proposición?",
+        opciones: ["Su hermana", "Canta", "Camila toca el piano", "El piano y canta"],
+        correcta: "Canta"
+      },
+      {
+        enunciado: "¿Cuál es el predicado en: 'El sol brilla intensamente y el cielo está despejado'?",
+        opciones: ["El sol y el cielo", "Brilla y está despejado", "Brilla intensamente y está despejado", "Brilla intensamente"],
+        correcta: "Brilla intensamente y está despejado"
+      },
+      {
+        enunciado: "¿Cuál es el sujeto compuesto en: 'Daniel lee novelas y Ana escribe poemas'?",
+        opciones: ["Daniel y Ana", "Lee y escribe", "Novelas y poemas", "Daniel"],
+        correcta: "Daniel y Ana"
+      },
+      {
+        enunciado: "¿Qué parte representa el predicado?: 'El reloj marca las cinco y el timbre suena'?",
+        opciones: ["El reloj y el timbre", "Marca y suena", "Marca las cinco y suena", "Marca las cinco y el timbre suena"],
+        correcta: "Marca las cinco y suena"
+      },
+      {
+        enunciado: "En la oración: 'Mis amigos corren por el parque y mis padres descansan en casa', ¿cuál es el segundo sujeto?",
+        opciones: ["Mis amigos", "Mis padres", "Corren por el parque", "Descansan en casa"],
+        correcta: "Mis padres"
+      },
+      {
+        enunciado: "¿Cuál es el predicado de: 'El niño dibuja y su madre cocina'?",
+        opciones: ["Dibuja y cocina", "El niño y su madre", "El niño dibuja", "Su madre cocina"],
+        correcta: "Dibuja y cocina"
+      },
+      {
+        enunciado: "Oración: 'Los estudiantes investigan mientras los profesores los guían'. ¿Quiénes son los sujetos?",
+        opciones: ["Los estudiantes y los profesores", "Los estudiantes", "Los profesores", "Investigan y guían"],
+        correcta: "Los estudiantes y los profesores"
+      }
+    ];
+
+    function mezclarArreglo(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    let correctas = 0;
+    const total = 20;
+    let tiempoRestante = 240; // 4 minutos
+    const progresoBarra = document.getElementById("progreso");
+    const contenedor = document.getElementById("contenedor");
+    const final = document.getElementById("final");
+    const puntajeFinal = document.getElementById("puntajeFinal");
+    const cronometro = document.getElementById("cronometro");
+
+    const preguntasAleatorias = mezclarArreglo([...preguntas]).slice(0, total);
+
+    preguntasAleatorias.forEach(pregunta => {
+      const div = document.createElement("div");
+      div.className = "pregunta";
+
+      const p = document.createElement("p");
+      p.innerHTML = pregunta.enunciado;
+      div.appendChild(p);
+
+      const resultado = document.createElement("div");
+      resultado.className = "respuesta";
+
+      pregunta.opciones.forEach(opcion => {
+        const btn = document.createElement("button");
+        btn.textContent = opcion;
+        btn.onclick = () => {
+          if (opcion === pregunta.correcta) {
+            correctas++;
+            resultado.textContent = "✅ ¡Correcto!";
+            resultado.style.color = "green";
+          } else {
+            resultado.textContent = "❌ Incorrecto";
+            resultado.style.color = "red";
+          }
+          progresoBarra.style.width = (correctas / total * 100) + "%";
+
+          if (correctas === total) {
+            finalizarJuego();
+          }
+        };
+        div.appendChild(btn);
+      });
+
+      div.appendChild(resultado);
+      contenedor.appendChild(div);
+    });
+
+    function finalizarJuego() {
+      contenedor.style.display = "none";
+      puntajeFinal.textContent = `✅ Respuestas correctas: ${correctas} de ${total}`;
+      final.style.display = "block";
+      clearInterval(intervalo);
+    }
+
+    const intervalo = setInterval(() => {
+      if (tiempoRestante <= 0) {
+        finalizarJuego();
+      } else {
+        tiempoRestante--;
+        let min = Math.floor(tiempoRestante / 60);
+        let seg = tiempoRestante % 60;
+        cronometro.textContent = `Tiempo: ${min}:${seg < 10 ? "0" + seg : seg}`;
+      }
+    }, 1000);
+  </script>
+
+  <a href="comunicacion.html" 
+     style="display:inline-block; margin-top:20px; padding:10px 15px; background:#f39c12; color:white; text-decoration:none; border-radius:5px;">
+     ⬅ Regresar
+  </a>
+</body>
+</html>

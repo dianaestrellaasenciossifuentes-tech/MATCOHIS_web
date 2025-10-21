@@ -1,0 +1,665 @@
+<!DOCTYPE html>  
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dibujos - El Mundo del Arte</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .gallery .item {
+            width: 280px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .gallery .item img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+
+        .welcome {
+            padding: 30px;
+            background-color: #fdfdfd;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .welcome:hover {
+            background-color: #f4f4f4;
+        }
+
+        .welcome h2 {
+            color: #2c3e50;
+            font-size: 2.5em;
+            font-family: 'Verdana', sans-serif;
+        }
+
+        .welcome p {
+            font-size: 1.2em;
+            line-height: 1.8;
+            color: #34495e;
+            font-family: 'Georgia', serif;
+        }
+
+        .welcome img {
+            border-radius: 12px;
+            margin-top: 20px;
+            transition: transform 0.3s ease-in-out;
+            width: 100%;
+            height: auto;
+        }
+
+        .welcome img:hover {
+            transform: scale(1.1);
+            opacity: 0.8;
+        }
+
+        .menu-toggle {
+            display: none;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #f0e68c;
+            transform: scale(1.1);
+        }
+
+        #feedbackBtn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #ff9800;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            z-index: 9999;
+        }
+
+        #feedbackPanel {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            background: white;
+            width: 300px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            padding: 15px;
+            display: none;
+            z-index: 9998;
+        }
+
+        #feedbackPanel h3 {
+            margin-top: 0;
+            color: #2a2a72;
+        }
+
+        .stars {
+            display: flex;
+            gap: 5px;
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        .stars span {
+            color: gray;
+        }
+
+        .stars span.selected {
+            color: gold;
+        }
+
+        textarea {
+            width: 100%;
+            resize: none;
+            padding: 8px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            margin-top: 10px;
+        }
+
+        .send-btn {
+            background: #2a2a72;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            margin-top: 10px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .send-btn:hover {
+            background: #3c3cd0;
+        }
+
+        /* 🔸 Botón de video (nuevo estilo) */
+        .video-link {
+            display: inline-block;
+            background-color: #ff9800;
+            color: white;
+            font-weight: bold;
+            text-decoration: none;
+            padding: 10px 16px;
+            border-radius: 25px;
+            margin-top: 8px;
+            transition: all 0.3s ease;
+            font-size: 0.95em;
+        }
+
+        .video-link:hover {
+            background-color: #e68900;
+            transform: scale(1.08);
+        }
+
+        /* 🧠 Mini juegos interactivos */
+        .mini-juegos {
+            background: linear-gradient(135deg, #ffeb99, #f1c1f3);
+            padding: 30px;
+            border-radius: 20px;
+            margin: 40px auto;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .mini-juegos h2 {
+            color: #6a1b9a;
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .mini-juegos p {
+            color: #333;
+            font-size: 1.1em;
+            margin-bottom: 25px;
+        }
+
+        .game-buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .game-buttons a {
+            background-color: #8e24aa;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .game-buttons a:hover {
+            background-color: #ab47bc;
+            transform: scale(1.1);
+        }
+
+        /* Modal y estilo de juegos (añadido sin cambiar paleta principal) */
+        .modal {
+            position: fixed;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgb(0,0,0,0,6);
+            z-index: 10000;
+        }
+
+        .modal.active { display: flex; }
+
+        .modal-content {
+            background: #fff;
+            border-radius: 16px;
+            width: 92%;
+            max-width: 900px;
+            padding: 18px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+            position: relative;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .modal-header h3 { margin: 0; color: #2a2a72; }
+        .close-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 6px 10px;
+            cursor: pointer;
+        }
+
+        .game-area { margin-top: 12px; }
+        .game-box { display: none; }
+        .game-box.active { display: block; }
+
+        .score-row { display:flex; gap:12px; align-items:center; }
+
+        /* botones del juego */
+        .btn-game { background:#6a1b9a; color:white; border:none; padding:10px 14px; border-radius:10px; cursor:pointer; font-weight:bold; }
+        .btn-game:hover { transform:scale(1.03); }
+
+        /* accesibilidad: tamaño de fuente legible */
+        .big { font-size:1.4em; }
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>MATCOHIS</h1>
+    </header>
+
+    <nav>
+        <button class="menu-toggle" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+        </button>
+        <a href="index.html">Inicio</a>
+        <a href="#">Matemática</a>
+        <a href="comunicacion.html">Comunicación</a>
+        <a href="historia.html">Historia</a>
+        <a href="contacto.html">Contacto</a>
+    </nav>
+
+    <!-- 🔹 NIVEL BÁSICO -->
+    <main>
+        <h2>Nivel Básico</h2>
+        <div class="gallery">
+            <div class="item">
+                <a href="aritmetica.html"><img src="img/img200.jpg" alt="Haz clic para jugar"></a>
+                <p><strong>ARITMÉTICA</strong><br><strong>Tema:</strong> 
+                    <a href="aritmetica.html" style="text-decoration: none; color: #2a2a72;">Sumas y restas con números naturales grandes</a>
+                </p>
+                <a href="img/aritmetica1.mp4" class="video-link">🎥 ¡Aprende con un video!</a>
+            </div>
+
+            <div class="item">
+                <a href="geometria.html"><img src="img/img204.jpg" alt="Haz clic para jugar"></a>
+                <p><strong>GEOMETRÍA</strong><br><strong>Tema:</strong> 
+                    <a href="geometria.html" style="text-decoration: none; color: #2a2a72;">Perímetros</a>
+                </p>
+                <a href="img/geometria1.mp4" class="video-link">📐 Mira la explicación</a>
+            </div>
+
+            <div class="item">
+                <a href="razonamiento.html"><img src="img/img218.jpg" alt="Haz clic para jugar"></a>
+                <p><strong>RAZONAMIENTO MATEMÁTICO</strong><br><strong>Tema:</strong> 
+                    <a href="razonamiento.html" style="text-decoration: none; color: #2a2a72;">Series numéricas con operaciones combinadas</a>
+                </p>
+                <a href="img/razonamientomatematico1.mp4" class="video-link">🧩 Descubre el reto en video</a>
+            </div>
+        </div>
+    </main>
+
+    <!-- 🔹 NIVEL INTERMEDIO -->
+    <main>
+        <h2>Nivel Intermedio</h2>
+        <div class="gallery">
+            <div class="item">
+                <a href="aritmetica_intermedio.html"><img src="img/img217.jpg" alt="Haz clic para jugar"></a>
+                <p><strong>ARITMÉTICA</strong><br><strong>Tema:</strong> 
+                    <a href="aritmetica_intermedio.html" style="text-decoration: none; color: #2a2a72;">Multiplicación y división con números de varias cifras</a>
+                </p>
+                <a href="img/aritmetica2.mp4" class="video-link">🎬 Video paso a paso</a>
+            </div>
+
+            <div class="item">
+                <a href="geometria_intermedio.html"><img src="img/img203.png" alt="Haz clic para jugar"></a>
+                <p><strong>GEOMETRÍA</strong><br><strong>Tema:</strong> 
+                    <a href="geometria_intermedio.html" style="text-decoration: none; color: #2a2a72;">Áreas</a>
+                </p>
+                <a href="img/geometria2.mp4" class="video-link">📏 Aprende visualmente</a>
+            </div>
+
+            <div class="item">
+                <a href="razonamiento_intermedio.html"><img src="img/img232.PNG" alt="Haz clic para jugar"></a>
+                <p><strong>RAZONAMIENTO MATEMÁTICO</strong><br><strong>Tema:</strong> 
+                    <a href="razonamiento_intermedio.html" style="text-decoration: none; color: #2a2a72;">Proporcionalidad</a>
+                </p>
+                <a href="img/razonamientomatematico1.mp4" class="video-link">🧠 ¡Razonemos con video!</a>
+            </div>
+        </div>
+    </main>
+
+    <!-- 🔹 NIVEL AVANZADO -->
+    <main>
+        <h2>Nivel Avanzado</h2>
+        <div class="gallery">
+            <div class="item">
+                <a href="aritmetica_avanzado.html"><img src="img/img233.PNG" alt="Haz clic para jugar"></a>
+                <p><strong>ARITMÉTICA</strong><br><strong>Tema:</strong> 
+                    <a href="aritmetica_avanzado.html" style="text-decoration: none; color: #2a2a72;">Operaciones con fracciones</a>
+                </p>
+                <a href="img/aritmetica3.mp4" class="video-link">🎓 Domina las fracciones</a>
+            </div>
+
+            <div class="item">
+                <a href="geometria_avanzado.html"><img src="img/img205.png" alt="Haz clic para jugar"></a>
+                <p><strong>GEOMETRÍA</strong><br><strong>Tema:</strong> 
+                    <a href="geometria_avanzado.html" style="text-decoration: none; color: #2a2a72;">Volumen</a>
+                </p>
+                <a href="img/geometria3.mp4" class="video-link">📚 Video sobre volumen</a>
+            </div>
+
+            <div class="item">
+                <a href="razonamiento_avanzado.html"><img src="img/img234.PNG" alt="Haz clic para jugar"></a>
+                <p><strong>RAZONAMIENTO MATEMÁTICO</strong><br><strong>Tema:</strong> 
+                    <a href="razonamiento_avanzado.html" style="text-decoration: none; color: #2a2a72;">Problemas de deducción</a>
+                </p>
+                <a href="img/razonamientomatematico3.mp4" class="video-link">🕵️‍♂️ ¡Resuelve el misterio!</a>
+            </div>
+        </div>
+    </main>
+
+    <!-- 🧠 MINI JUEGOS INTERACTIVOS -->
+    <section class="mini-juegos">
+        <h2>🧠 Mini juegos interactivos</h2>
+        <p>Incorpora pequeños retos matemáticos y pon a prueba tu rapidez mental. ¡Resuelve antes de que se acabe el tiempo!</p>
+        <div class="game-buttons">
+            <a href="#" data-game="sumas">🚀 Carrera de sumas</a>
+            <a href="#" data-game="lineas">🎯 Líneas matemáticas</a>
+            <a href="#" data-game="puzzles">🧩 Más juegos educativos</a>
+        </div>
+    </section>
+
+    <!-- MODAL DE JUEGOS CREADOS (AÑADIDO JUSTO ANTES DEL PIE DE PÁGINA) -->
+    <div id="gameModal" class="modal" role="dialog" aria-hidden="true">
+        <div class="modal-content" role="document">
+            <div class="modal-header">
+                <h3 id="modalTitle">Juego</h3>
+                <div>
+                    <button id="muteBtn" class="btn-game">🔊</button>
+                    <button class="close-btn" id="closeModal">Cerrar</button>
+                </div>
+            </div>
+            <div class="game-area">
+                <!-- Juego 1: Carrera de sumas (timed multiple choice) -->
+                <div id="game-sumas" class="game-box">
+                    <div class="score-row">
+                        <div class="big">Tiempo: <span id="timer-sumas">20</span>s</div>
+                        <div class="big">Puntos: <span id="score-sumas">0</span></div>
+                    </div>
+                    <hr>
+                    <div id="question-sumas" class="big" style="margin:18px 0"></div>
+                    <div id="answers-sumas" style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center"></div>
+                    <div style="margin-top:14px;">
+                        <button id="start-sumas" class="btn-game">Iniciar</button>
+                    </div>
+                </div>
+
+                <!-- Juego 2: Líneas matemáticas (evita respuestas incorrectas) -->
+                <div id="game-lineas" class="game-box">
+                    <div class="score-row">
+                        <div class="big">Intentos: <span id="attempts-lineas">0</span></div>
+                        <div class="big">Aciertos: <span id="hits-lineas">0</span></div>
+                    </div>
+                    <hr>
+                    <p class="big">Une la respuesta correcta al problema. (Selecciona la respuesta correcta)</p>
+                    <div id="problem-lineas" class="big" style="margin:18px 0"></div>
+                    <div id="options-lineas" style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center"></div>
+                    <div style="margin-top:14px;"><button id="next-lineas" class="btn-game">Siguiente</button></div>
+                </div>
+
+                <!-- Juego 3: Puzzles (series numéricas) -->
+                <div id="game-puzzles" class="game-box">
+                    <div class="score-row">
+                        <div class="big">Nivel: <span id="level-puzzles">1</span></div>
+                        <div class="big">Aciertos: <span id="score-puzzles">0</span></div>
+                    </div>
+                    <hr>
+                    <div id="puzzle-text" class="big" style="margin:18px 0"></div>
+                    <input id="puzzle-answer" type="number" placeholder="Tu respuesta" style="padding:8px;border-radius:8px;border:1px solid #ccc;font-size:1.1em;" />
+                    <div style="margin-top:12px;"><button id="submit-puzzle" class="btn-game">Enviar</button></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Mentes poderosas en acción - Sistema MATCOHIS | Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <button id="feedbackBtn">💬</button>
+    <div id="feedbackPanel">
+        <h3>Tu opinión</h3>
+        <div class="stars" id="starContainer">
+            <span data-value="1">★</span>
+            <span data-value="2">★</span>
+            <span data-value="3">★</span>
+            <span data-value="4">★</span>
+            <span data-value="5">★</span>
+        </div>
+        <textarea placeholder="Escribe tu comentario aquí..."></textarea>
+        <button class="send-btn">Enviar</button>
+    </div>
+
+    <!-- Audios de feedback (pequeños y apropiados para niños) -->
+    <audio id="audio-correct" src="data:audio/mpeg;base64,//uQZAAAAAAAAAAAAAAAAAAAAAA..." preload="auto"></audio>
+    <audio id="audio-wrong" src="data:audio/mpeg;base64,//uQZAAAAAAAAAAAAAAAAAAAAAA..." preload="auto"></audio>
+    <audio id="audio-bg" loop src="data:audio/mpeg;base64,//uQZAAAAAAAAAAAAAAAAAAAAAA..." preload="auto"></audio>
+
+    <script>
+        /* Feedback panel */
+        const feedbackBtn = document.getElementById('feedbackBtn');
+        const feedbackPanel = document.getElementById('feedbackPanel');
+        const stars = document.querySelectorAll('#starContainer span');
+        let rating = 0;
+
+        feedbackBtn.addEventListener('click', () => {
+            feedbackPanel.style.display = feedbackPanel.style.display === 'block' ? 'none' : 'block';
+        });
+
+        stars.forEach(star => {
+            star.addEventListener('click', () => {
+                rating = parseInt(star.getAttribute('data-value'));
+                stars.forEach(s => s.classList.remove('selected'));
+                for (let i = 0; i < rating; i++) {
+                    stars[i].classList.add('selected');
+                }
+            });
+        });
+
+        // Juegos: lógica y control de modal
+        const gameModal = document.getElementById('gameModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const closeModal = document.getElementById('closeModal');
+        const muteBtn = document.getElementById('muteBtn');
+        const audioCorrect = document.getElementById('audio-correct');
+        const audioWrong = document.getElementById('audio-wrong');
+        const audioBg = document.getElementById('audio-bg');
+        let muted = false;
+
+        // small base64 placeholders above: replace with real small mp3 files if you have them in production.
+
+        document.querySelectorAll('.game-buttons a').forEach(a => {
+            a.addEventListener('click', (e) => {
+                e.preventDefault();
+                const game = a.getAttribute('data-game');
+                openGame(game);
+            });
+        });
+
+        closeModal.addEventListener('click', closeGame);
+        gameModal.addEventListener('click', (e) => { if (e.target === gameModal) closeGame(); });
+
+        muteBtn.addEventListener('click', () => {
+            muted = !muted;
+            audioBg[muted ? 'pause' : 'play']();
+            muteBtn.textContent = muted ? '🔈' : '🔊';
+        });
+
+        function openGame(name) {
+            modalTitle.textContent = (name === 'sumas') ? 'Carrera de sumas' : (name === 'lineas') ? 'Líneas matemáticas' : 'Puzzles numéricos';
+            document.querySelectorAll('.game-box').forEach(box => box.classList.remove('active'));
+            document.getElementById('game-' + name).classList.add('active');
+            gameModal.classList.add('active');
+            if (!muted) audioBg.play().catch(()=>{});
+            gameModal.setAttribute('aria-hidden', 'false');
+        }
+
+        function closeGame() {
+            gameModal.classList.remove('active');
+            audioBg.pause();
+            audioBg.currentTime = 0;
+            gameModal.setAttribute('aria-hidden', 'true');
+        }
+
+        /* ===== Juego 1: Carrera de sumas ===== */
+        const questionSumas = document.getElementById('question-sumas');
+        const answersSumas = document.getElementById('answers-sumas');
+        const startSumas = document.getElementById('start-sumas');
+        const timerSumas = document.getElementById('timer-sumas');
+        const scoreSumas = document.getElementById('score-sumas');
+        let sumasInterval, timeLeft = 20, score = 0;
+
+        function randInt(a,b){ return Math.floor(Math.random()*(b-a+1))+a; }
+
+        function newQuestionSumas(){
+            const a = randInt(1, 50);
+            const b = randInt(1, 50);
+            const correct = a + b;
+            questionSumas.textContent = `${a} + ${b} = ?`;
+            const options = new Set([correct]);
+            while(options.size < 4) options.add(correct + randInt(-10,10));
+            answersSumas.innerHTML = '';
+            Array.from(options).sort(()=>Math.random()-0.5).forEach(opt=>{
+                const btn = document.createElement('button');
+                btn.className = 'btn-game';
+                btn.textContent = opt;
+                btn.addEventListener('click', ()=>{
+                    if(parseInt(btn.textContent) === correct){
+                        score += 10; scoreSumas.textContent = score;
+                        playAudio(audioCorrect);
+                        newQuestionSumas();
+                    } else { playAudio(audioWrong); }
+                });
+                answersSumas.appendChild(btn);
+            });
+        }
+
+        function playAudio(a){ if(!muted){ a.currentTime = 0; a.play().catch(()=>{}); } }
+
+        startSumas.addEventListener('click', ()=>{
+            clearInterval(sumasInterval); timeLeft = 20; score = 0; scoreSumas.textContent = score; timerSumas.textContent = timeLeft;
+            newQuestionSumas();
+            sumasInterval = setInterval(()=>{
+                timeLeft--; timerSumas.textContent = timeLeft;
+                if(timeLeft <= 0){ clearInterval(sumasInterval); playAudio(audioWrong); alert('Tiempo terminado! Puntos: ' + score); }
+            },1000);
+        });
+
+        /* ===== Juego 2: Lineas (elige la respuesta correcta) ===== */
+        const problemLineas = document.getElementById('problem-lineas');
+        const optionsLineas = document.getElementById('options-lineas');
+        const hitsLineas = document.getElementById('hits-lineas');
+        const attemptsLineas = document.getElementById('attempts-lineas');
+        const nextLineas = document.getElementById('next-lineas');
+        let hits = 0, attempts = 0, correctAnswerLineas;
+
+        function newProblemLineas(){
+            const a = randInt(2,20);
+            const b = randInt(2,20);
+            correctAnswerLineas = a * b;
+            problemLineas.textContent = `${a} × ${b} = ?`;
+            optionsLineas.innerHTML = '';
+            const opts = new Set([correctAnswerLineas]);
+            while(opts.size < 4) opts.add(correctAnswerLineas + randInt(-12,12));
+            Array.from(opts).sort(()=>Math.random()-0.5).forEach(opt=>{
+                const btn = document.createElement('button'); btn.className='btn-game'; btn.textContent = opt;
+                btn.addEventListener('click', ()=>{
+                    attempts++; attemptsLineas.textContent = attempts;
+                    if(parseInt(btn.textContent) === correctAnswerLineas){ hits++; hitsLineas.textContent = hits; playAudio(audioCorrect); }
+                    else { playAudio(audioWrong); }
+                });
+                optionsLineas.appendChild(btn);
+            });
+        }
+        nextLineas.addEventListener('click', newProblemLineas);
+
+        /* ===== Juego 3: Puzzles (series numéricas) ===== */
+        const puzzleText = document.getElementById('puzzle-text');
+        const puzzleAnswer = document.getElementById('puzzle-answer');
+        const submitPuzzle = document.getElementById('submit-puzzle');
+        const levelPuzzles = document.getElementById('level-puzzles');
+        const scorePuzzles = document.getElementById('score-puzzles');
+        let level = 1, scoreP = 0, currentSolution;
+
+        function newPuzzle(){
+            // series: arithmetic progression or doubling with missing last
+            const type = Math.random() < 0.6 ? 'ap' : 'mul';
+            if(type === 'ap'){
+                const start = randInt(1,10);
+                const diff = randInt(1,6);
+                const len = 4 + Math.min(3, Math.floor(level/2));
+                const arr = Array.from({length: len}, (_,i)=> start + diff*i);
+                currentSolution = arr[arr.length-1] + diff;
+                puzzleText.textContent = `Completa la serie: ${arr.join(', ')}, ...`;
+            } else {
+                const start = randInt(2,4);
+                const factor = randInt(2,3);
+                const len = 3 + Math.min(3, Math.floor(level/3));
+                let arr = [start];
+                for(let i=1;i<len;i++) arr.push(arr[i-1]*factor);
+                currentSolution = arr[arr.length-1]*factor;
+                puzzleText.textContent = `Completa la serie: ${arr.join(', ')}, ...`;
+            }
+            puzzleAnswer.value = '';
+        }
+
+        submitPuzzle.addEventListener('click', ()=>{
+            const val = parseInt(puzzleAnswer.value);
+            if(isNaN(val)){ alert('Ingresa un número válido'); return; }
+            if(val === currentSolution){ scoreP += 1; scorePuzzles.textContent = scoreP; level = Math.min(10, level+1); levelPuzzles.textContent = level; playAudio(audioCorrect); newPuzzle(); }
+            else { playAudio(audioWrong); alert('Respuesta incorrecta. Intenta otra vez.'); }
+        });
+
+        // Al abrir cada juego, inicializamos su contenido para que sea inmediato y entretenido
+        document.getElementById('game-sumas').addEventListener('mouseenter', ()=>{});
+        // Inicializaciones al mostrar el modal por primera vez
+        document.addEventListener('DOMContentLoaded', ()=>{
+            newProblemLineas();
+            newPuzzle();
+        });
+
+        // A11y: cerrar modal con Escape
+        document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeGame(); });
+
+    </script>
+</body>
+</html>
+
+
+

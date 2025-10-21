@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Historia del Perú - Independencia del Perú</title>
+  <style>
+    body {
+      font-family: 'Verdana', sans-serif;
+      background: linear-gradient(135deg, #ffeb99, #dfc0fc);
+      padding: 20px;
+      text-align: center;
+      margin: 0;
+    }
+    h1 {
+      color: #2c3e50;
+      font-size: 2.2em;
+      margin-bottom: 10px;
+    }
+    .avatar {
+      margin: 15px;
+      font-size: 2.5em;
+    }
+    .barra-progreso {
+      width: 80%;
+      height: 20px;
+      background: #ddd;
+      border-radius: 10px;
+      margin: 10px auto;
+      overflow: hidden;
+    }
+    .progreso {
+      height: 100%;
+      width: 0%;
+      background: #28a745;
+      transition: width 0.3s;
+    }
+    .explicacion {
+      background: #fff5cc;
+      border: 2px dashed #f4c542;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 20px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+      font-size: 1.1em;
+    }
+    .pregunta {
+      background-color: #ffffff;
+      padding: 20px;
+      margin: 20px auto;
+      max-width: 600px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      border-top: 5px solid #f39c12;
+      transition: transform 0.2s ease;
+    }
+    .pregunta:hover {
+      transform: scale(1.02);
+    }
+    .pregunta p {
+      font-size: 1.4em;
+      font-weight: bold;
+      color: #34495e;
+      margin-bottom: 15px;
+    }
+    button {
+      margin: 6px;
+      padding: 10px 18px;
+      font-size: 1em;
+      border: none;
+      border-radius: 8px;
+      background-color: #f39c12;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    button:hover {
+      background-color: #d9820f;
+      transform: translateY(-2px);
+    }
+    .respuesta {
+      margin-top: 10px;
+      font-weight: bold;
+      font-size: 1.2em;
+    }
+    .cronometro {
+      font-size: 1.4em;
+      font-weight: bold;
+      color: #e74c3c;
+      margin-top: 10px;
+    }
+    .final {
+      display: none;
+      margin-top: 30px;
+    }
+    .regalo {
+      font-size: 5em;
+      cursor: pointer;
+      transition: transform 0.4s;
+    }
+    .regalo:hover {
+      transform: scale(1.2);
+    }
+    .sorpresa {
+      display: none;
+      font-size: 1.6em;
+      color: #27ae60;
+      margin-top: 20px;
+      animation: aparecer 1s ease;
+    }
+    @keyframes aparecer {
+      from { opacity: 0; transform: scale(0.5); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    #puntajeFinal {
+      font-size: 1.4em;
+      font-weight: bold;
+      margin-bottom: 15px;
+      color: #2980b9;
+    }
+  </style>
+</head>
+<body>
+  <h1>Historia del Perú: La Independencia del Perú</h1>
+  <div class="avatar">🦅 Libertador del Perú</div>
+
+  <div class="barra-progreso">
+    <div class="progreso" id="progreso"></div>
+  </div>
+
+  <div class="cronometro" id="cronometro">Tiempo: 7:10</div>
+
+  <div class="explicacion">
+    <h3>La independencia del Perú: un paso hacia la libertad</h3>
+    <p>
+      La independencia del Perú fue un proceso muy importante que permitió que nuestro país dejara de ser una colonia de España. 
+      Antes de la independencia, el Perú era gobernado por los españoles, quienes controlaban las tierras, los recursos y tomaban decisiones sin considerar a los peruanos.
+    </p>
+    <p>
+      La lucha por la independencia comenzó con ideas de libertad e igualdad que se expandieron desde otros países de América del Sur como Argentina, Venezuela y Colombia. 
+      En el Perú, muchos criollos (hijos de españoles nacidos en América), mestizos e indígenas comenzaron a soñar con un país libre.
+    </p>
+    <p>
+      Uno de los personajes más importantes fue el general argentino <strong>José de San Martín</strong>, quien llegó al Perú con su ejército libertador. 
+      El 28 de julio de 1821, San Martín proclamó la independencia del Perú en la Plaza Mayor de Lima con las famosas palabras: 
+      <em>"¡El Perú es desde este momento libre e independiente por la voluntad general de los pueblos y por la justicia de su causa que Dios defiende!"</em>
+    </p>
+    <p>
+      Sin embargo, la independencia no fue total ese día. Todavía había presencia española en otras regiones, como el sur del país. 
+      Fue necesario que el militar venezolano <strong>Simón Bolívar</strong> y su ejército continuaran la lucha hasta lograr la victoria final en la <strong>Batalla de Ayacucho</strong>, el 9 de diciembre de 1824.
+    </p>
+    <p>
+      La independencia del Perú permitió que nuestro país comenzara a construir su propio gobierno, sus propias leyes y su identidad como nación libre.
+    </p>
+    <p><strong>¡Ahora responde estas 20 preguntas para comprobar lo que aprendiste!</strong></p>
+  </div>
+
+  <div id="contenedor"></div>
+
+  <div class="final" id="final">
+    <div id="puntajeFinal"></div>
+    <div class="regalo" onclick="abrirRegalo()">🎁</div>
+    <div class="sorpresa" id="sorpresa">✨🦅 ¡Excelente trabajo aprendiendo la Independencia del Perú! 🦅✨</div>
+  </div>
+
+  <script>
+    const preguntas = [
+      { enunciado: "¿Qué país gobernaba al Perú antes de la independencia?", opciones: ["Francia", "Portugal", "España", "Italia"], correcta: "España" },
+      { enunciado: "¿Qué personaje proclamó la independencia del Perú?", opciones: ["Simón Bolívar", "José de San Martín", "Túpac Amaru", "Antonio José de Sucre"], correcta: "José de San Martín" },
+      { enunciado: "¿En qué año se proclamó la independencia del Perú?", opciones: ["1824", "1821", "1810", "1804"], correcta: "1821" },
+      { enunciado: "¿En qué fecha se celebra la independencia del Perú?", opciones: ["9 de diciembre", "28 de julio", "25 de diciembre", "1 de enero"], correcta: "28 de julio" },
+      { enunciado: "¿Dónde se proclamó la independencia del Perú?", opciones: ["Cusco", "Arequipa", "Plaza Mayor de Lima", "Ayacucho"], correcta: "Plaza Mayor de Lima" },
+      { enunciado: "¿Qué militar ayudó a completar la independencia en 1824?", opciones: ["Andrés Avelino Cáceres", "Miguel Grau", "Simón Bolívar", "Manuel Pardo"], correcta: "Simón Bolívar" },
+      { enunciado: "¿Cuál fue la batalla final que selló la independencia del Perú?", opciones: ["Batalla de Junín", "Batalla de Ayacucho", "Batalla de Lima", "Batalla de Pichincha"], correcta: "Batalla de Ayacucho" },
+      { enunciado: "¿En qué año fue la Batalla de Ayacucho?", opciones: ["1821", "1824", "1830", "1815"], correcta: "1824" },
+      { enunciado: "¿Qué grupo social comenzó a desear la independencia?", opciones: ["Esclavos europeos", "Criollos, mestizos e indígenas", "Reyes españoles", "Extraterrestres"], correcta: "Criollos, mestizos e indígenas" },
+      { enunciado: "¿Qué frase dijo San Martín al proclamar la independencia?", opciones: ["¡Viva la corona española!", "¡El Perú es libre e independiente!", "¡Viva el virrey!", "¡Viva la esclavitud!"], correcta: "¡El Perú es libre e independiente!" },
+      { enunciado: "¿Qué país ayudó con la Expedición Libertadora junto a Argentina?", opciones: ["Chile", "México", "Brasil", "Uruguay"], correcta: "Chile" },
+      { enunciado: "¿Qué otro héroe participó en la independencia junto a Bolívar?", opciones: ["Antonio José de Sucre", "Pachacútec", "Manco Cápac", "Pedro Ruiz Gallo"], correcta: "Antonio José de Sucre" },
+      { enunciado: "¿Qué rey gobernaba España durante el inicio de la independencia?", opciones: ["Carlos III", "Felipe II", "Fernando VII", "Juan Carlos I"], correcta: "Fernando VII" },
+      { enunciado: "¿Qué país fue independiente primero?", opciones: ["Perú", "Argentina", "España", "Italia"], correcta: "Argentina" },
+      { enunciado: "¿Cuál es el símbolo de la libertad del Perú?", opciones: ["La corona", "El escudo", "La bandera peruana", "La espada"], correcta: "La bandera peruana" },
+      { enunciado: "¿Qué actividad hacía el pueblo durante el Virreinato?", opciones: ["Elegía al presidente", "Esclavitud y trabajo forzado", "Celebraba la independencia", "Fabricaba aviones"], correcta: "Esclavitud y trabajo forzado" },
+      { enunciado: "¿Qué otros países lograron su independencia antes que Perú?", opciones: ["Venezuela y Colombia", "Estados Unidos y Canadá", "Brasil y Bolivia", "Japón y Corea"], correcta: "Venezuela y Colombia" },
+      { enunciado: "¿Qué querían lograr los peruanos con la independencia?", opciones: ["Más impuestos", "Seguir siendo colonia", "Libertad y justicia", "Volver al Imperio Inca"], correcta: "Libertad y justicia" },
+      { enunciado: "¿Qué importancia tuvo la independencia del Perú?", opciones: ["Nada", "Permitió la libertad del país", "Volver al pasado", "Conquistar España"], correcta: "Permitió la libertad del país" },
+      { enunciado: "¿Quiénes formaban el ejército libertador?", opciones: ["Soldados españoles", "Pueblos americanos", "Aliados americanos y peruanos", "Ingleses y franceses"], correcta: "Aliados americanos y peruanos" }
+    ];
+
+    function mezclarArreglo(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    let correctas = 0;
+    const total = 20;
+    let tiempoRestante = 430; // 7 min 10 seg
+    const progresoBarra = document.getElementById("progreso");
+    const contenedor = document.getElementById("contenedor");
+    const final = document.getElementById("final");
+    const puntajeFinal = document.getElementById("puntajeFinal");
+    const cronometro = document.getElementById("cronometro");
+
+    const preguntasAleatorias = mezclarArreglo([...preguntas]).slice(0, total);
+
+    preguntasAleatorias.forEach(pregunta => {
+      const div = document.createElement("div");
+      div.className = "pregunta";
+
+      const p = document.createElement("p");
+      p.innerHTML = pregunta.enunciado;
+      div.appendChild(p);
+
+      const resultado = document.createElement("div");
+      resultado.className = "respuesta";
+
+      pregunta.opciones.forEach(opcion => {
+        const btn = document.createElement("button");
+        btn.textContent = opcion;
+        btn.onclick = () => {
+          if (opcion === pregunta.correcta) {
+            correctas++;
+            resultado.textContent = "✅ ¡Correcto!";
+            resultado.style.color = "green";
+          } else {
+            resultado.textContent = "❌ Incorrecto";
+            resultado.style.color = "red";
+          }
+          progresoBarra.style.width = (correctas / total * 100) + "%";
+
+          if (correctas === total) {
+            finalizarJuego();
+          }
+        };
+        div.appendChild(btn);
+      });
+
+      div.appendChild(resultado);
+      contenedor.appendChild(div);
+    });
+
+    function finalizarJuego() {
+      contenedor.style.display = "none";
+      puntajeFinal.textContent = `✅ Respuestas correctas: ${correctas} de ${total}`;
+      final.style.display = "block";
+      clearInterval(intervalo);
+    }
+
+    const intervalo = setInterval(() => {
+      if (tiempoRestante <= 0) {
+        finalizarJuego();
+      } else {
+        tiempoRestante--;
+        let min = Math.floor(tiempoRestante / 60);
+        let seg = tiempoRestante % 60;
+        cronometro.textContent = `Tiempo: ${min}:${seg < 10 ? "0" + seg : seg}`;
+      }
+    }, 1000);
+
+    function abrirRegalo() {
+      document.getElementById("sorpresa").style.display = "block";
+    }
+  </script>
+
+  <a href="historia.html" 
+     style="display:inline-block; margin-top:20px; padding:10px 15px; background:#f39c12; color:white; text-decoration:none; border-radius:5px;">
+     ⬅ Regresar
+  </a>
+</body>
+</html>
+

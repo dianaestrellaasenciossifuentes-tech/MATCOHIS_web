@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Historia Universal - Civilización Griega y Democracia</title>
+   <style>
+    body {
+      font-family: 'Verdana', sans-serif;
+      background: linear-gradient(135deg, #ffeb99, #dfc0fc);
+      padding: 20px;
+      text-align: center;
+      margin: 0;
+    }
+    h1 {
+      color: #2c3e50;
+      font-size: 2.2em;
+      margin-bottom: 10px;
+    }
+    .avatar {
+      margin: 15px;
+      font-size: 3em;
+    }
+    .barra-progreso {
+      width: 80%;
+      height: 20px;
+      background: #ddd;
+      border-radius: 10px;
+      margin: 10px auto;
+      overflow: hidden;
+    }
+    .progreso {
+      height: 100%;
+      width: 0%;
+      background: #28a745; /* Verde */
+      transition: width 0.3s;
+    }
+    .cronometro {
+      font-size: 1.4em;
+      font-weight: bold;
+      color: #e74c3c;
+      margin-top: 10px;
+    }
+    .explicacion {
+      background: #fff5cc;
+      border: 2px dashed #f4c542;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 20px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+      font-size: 1.1em;
+    }
+    .pregunta {
+      background-color: #ffffff;
+      padding: 20px;
+      margin: 20px auto;
+      max-width: 600px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      border-top: 5px solid #f39c12;
+      transition: transform 0.2s ease;
+    }
+    .pregunta:hover {
+      transform: scale(1.02);
+    }
+    .pregunta p {
+      font-size: 1.4em;
+      font-weight: bold;
+      color: #34495e;
+      margin-bottom: 15px;
+    }
+    button {
+      margin: 6px;
+      padding: 10px 18px;
+      font-size: 1em;
+      border: none;
+      border-radius: 8px;
+      background-color: #f39c12;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    button:hover {
+      background-color: #d9820f;
+      transform: translateY(-2px);
+    }
+    .respuesta {
+      margin-top: 10px;
+      font-weight: bold;
+      font-size: 1.2em;
+    }
+    .final {
+      display: none;
+      margin-top: 30px;
+    }
+    #puntajeFinal {
+      font-size: 1.4em;
+      font-weight: bold;
+      margin-bottom: 15px;
+      color: #2980b9;
+    }
+    .regalo {
+      font-size: 5em;
+      cursor: pointer;
+      transition: transform 0.4s;
+    }
+    .regalo:hover {
+      transform: scale(1.2);
+    }
+    .sorpresa {
+      display: none;
+      font-size: 1.6em;
+      color: #27ae60;
+      margin-top: 20px;
+      animation: aparecer 1s ease;
+    }
+    @keyframes aparecer {
+      from { opacity: 0; transform: scale(0.5); }
+      to { opacity: 1; transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+  <h1>Historia Universal: La Civilización Griega y la Democracia</h1>
+  <div class="avatar">🐢Tu compañera de la historia</div>
+
+  <div class="barra-progreso">
+    <div class="progreso" id="progreso"></div>
+  </div>
+
+  <div class="cronometro" id="cronometro">Tiempo: 7:00</div>
+
+  <div class="explicacion">
+    <h3>La civilización griega y el nacimiento de la democracia</h3>
+    <p>
+      La civilización griega surgió hace más de 2500 años en la región del mar Mediterráneo, especialmente en la península balcánica y las islas del mar Egeo. 
+      Los griegos fueron conocidos por su cultura avanzada, su arte, su arquitectura, sus conocimientos en filosofía, ciencia y matemáticas, y por ser los creadores de la democracia.
+    </p>
+    <p>
+      Una de las ciudades más importantes de la antigua Grecia fue Atenas. Allí nació la democracia alrededor del siglo V a.C. En este sistema, los ciudadanos atenienses participaban en la toma de decisiones 
+      políticas, lo que significó un gran avance en la historia de la humanidad. Aunque no todos podían participar (las mujeres, esclavos y extranjeros no eran considerados ciudadanos), fue un gran paso hacia la idea de igualdad y justicia.
+    </p>
+    <p>
+      Los griegos también crearon los Juegos Olímpicos, construyeron templos como el Partenón, y contaban con pensadores famosos como Sócrates, Platón y Aristóteles. Su influencia es tan importante que muchas de sus ideas aún se estudian en la actualidad.
+    </p>
+    <p><strong>¡Ahora pon a prueba tus conocimientos con estas 20 preguntas sobre la civilización griega y la democracia!</strong></p>
+  </div>
+
+  <div id="contenedor"></div>
+
+  <div class="final" id="final">
+    <div id="puntajeFinal"></div>
+    <div class="regalo" onclick="abrirRegalo()">🎁</div>
+    <div class="sorpresa" id="sorpresa">✨🐢 ¡Excelente trabajo repasando la historia griega! 🐢✨</div>
+  </div>
+
+  <script>
+    const preguntas = [
+      {enunciado:"¿Dónde se originó la civilización griega?", opciones:["En América","En Asia","En la región del mar Mediterráneo","En el norte de Europa"], correcta:"En la región del mar Mediterráneo"},
+      {enunciado:"¿Cuál fue una de las ciudades más importantes de la antigua Grecia?", opciones:["Roma","Atenas","Cartago","París"], correcta:"Atenas"},
+      {enunciado:"¿Qué sistema político nació en Atenas?", opciones:["Monarquía","Dictadura","Democracia","Feudalismo"], correcta:"Democracia"},
+      {enunciado:"¿Qué personas no podían votar en la democracia ateniense?", opciones:["Hombres ciudadanos","Esclavos y mujeres","Filósofos","Guerreros"], correcta:"Esclavos y mujeres"},
+      {enunciado:"¿Qué famosos filósofos griegos destacaron en la historia?", opciones:["Descartes y Newton","Sócrates, Platón y Aristóteles","Einstein y Tesla","Copérnico y Galileo"], correcta:"Sócrates, Platón y Aristóteles"},
+      {enunciado:"¿Qué famoso edificio griego fue construido en Atenas?", opciones:["La Torre Eiffel","El Partenón","El Coliseo","La Gran Muralla"], correcta:"El Partenón"},
+      {enunciado:"¿En qué siglo nació la democracia en Grecia?", opciones:["Siglo I a.C.","Siglo V a.C.","Siglo XV","Siglo XXI"], correcta:"Siglo V a.C."},
+      {enunciado:"¿Qué evento deportivo fue creado por los griegos?", opciones:["La Copa Mundial","Los Juegos Olímpicos","El Tour de Francia","La NBA"], correcta:"Los Juegos Olímpicos"},
+      {enunciado:"¿Qué mar rodeaba a Grecia?", opciones:["Mar Rojo","Mar Caribe","Mar Egeo","Mar Báltico"], correcta:"Mar Egeo"},
+      {enunciado:"¿Qué pensador enseñó a Alejandro Magno?", opciones:["Sócrates","Aristóteles","Platón","Homero"], correcta:"Aristóteles"},
+      {enunciado:"¿Qué valor promovía la democracia griega?", opciones:["Riqueza","Poder absoluto","Participación ciudadana","Guerra"], correcta:"Participación ciudadana"},
+      {enunciado:"¿Qué tipo de gobierno es la democracia?", opciones:["Gobierno de uno solo","Gobierno del pueblo","Gobierno de los dioses","Gobierno militar"], correcta:"Gobierno del pueblo"},
+      {enunciado:"¿Qué escritor griego es famoso por la 'Ilíada' y la 'Odisea'?", opciones:["Aristóteles","Homero","Platón","Sófocles"], correcta:"Homero"},
+      {enunciado:"¿Qué símbolo representa la arquitectura griega?", opciones:["Rascacielos","Cúpulas árabes","Columnas","Puentes colgantes"], correcta:"Columnas"},
+      {enunciado:"¿Qué importancia tuvo Atenas en la historia?", opciones:["Fue una ciudad guerrera","Fue centro de comercio únicamente","Fue cuna de la democracia y la cultura","No tuvo importancia"], correcta:"Fue cuna de la democracia y la cultura"},
+      {enunciado:"¿Qué aprendemos hoy en día de la cultura griega?", opciones:["Ideas sobre armas","Ideas sobre democracia, ciencia y arte","Técnicas de magia","Historias de terror"], correcta:"Ideas sobre democracia, ciencia y arte"},
+      {enunciado:"¿Qué deporte actual tiene origen en Grecia?", opciones:["Béisbol","Fútbol","Boxeo","Atletismo"], correcta:"Atletismo"},
+      {enunciado:"¿Quién era considerado ciudadano en Atenas?", opciones:["Todos los habitantes","Solo los hombres libres nacidos en Atenas","Las mujeres","Los esclavos"], correcta:"Solo los hombres libres nacidos en Atenas"},
+      {enunciado:"¿Qué era el Partenón?", opciones:["Una escuela","Un templo dedicado a Atenea","Una cárcel","Un palacio del rey"], correcta:"Un templo dedicado a Atenea"},
+      {enunciado:"¿Qué destacaban los griegos además de la democracia?", opciones:["Guerra y destrucción","Ciencia, filosofía y arte","Conquista de América","Construcción de castillos"], correcta:"Ciencia, filosofía y arte"}
+    ];
+
+    function mezclarArreglo(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    let correctas = 0;
+    const total = 20;
+    let tiempoRestante = 420; // 7 minutos exactos
+    const progresoBarra = document.getElementById("progreso");
+    const contenedor = document.getElementById("contenedor");
+    const final = document.getElementById("final");
+    const puntajeFinal = document.getElementById("puntajeFinal");
+    const cronometro = document.getElementById("cronometro");
+
+    const preguntasAleatorias = mezclarArreglo([...preguntas]).slice(0, total);
+
+    preguntasAleatorias.forEach(pregunta => {
+      const div = document.createElement("div");
+      div.className = "pregunta";
+
+      const p = document.createElement("p");
+      p.innerHTML = pregunta.enunciado;
+      div.appendChild(p);
+
+      const resultado = document.createElement("div");
+      resultado.className = "respuesta";
+
+      pregunta.opciones.forEach(opcion => {
+        const btn = document.createElement("button");
+        btn.textContent = opcion;
+        btn.onclick = () => {
+          if (opcion === pregunta.correcta) {
+            correctas++;
+            resultado.textContent = "✅ ¡Correcto!";
+            resultado.style.color = "green";
+          } else {
+            resultado.textContent = "❌ Incorrecto";
+            resultado.style.color = "red";
+          }
+          progresoBarra.style.width = (correctas / total * 100) + "%";
+
+          if (correctas === total) {
+            finalizarJuego();
+          }
+        };
+        div.appendChild(btn);
+      });
+
+      div.appendChild(resultado);
+      contenedor.appendChild(div);
+    });
+
+    function finalizarJuego() {
+      contenedor.style.display = "none";
+      puntajeFinal.textContent = `✅ Respuestas correctas: ${correctas} de ${total}`;
+      final.style.display = "block";
+      clearInterval(intervalo);
+    }
+
+    const intervalo = setInterval(() => {
+      if (tiempoRestante <= 0) {
+        finalizarJuego();
+      } else {
+        tiempoRestante--;
+        let min = Math.floor(tiempoRestante / 60);
+        let seg = tiempoRestante % 60;
+        cronometro.textContent = `Tiempo: ${min}:${seg < 10 ? "0" + seg : seg}`;
+      }
+    }, 1000);
+
+    function abrirRegalo() {
+      document.getElementById("sorpresa").style.display = "block";
+    }
+  </script>
+
+<a href="historia.html" 
+   style="display:inline-block; margin-top:20px; padding:10px 15px; background:#f39c12; color:white; text-decoration:none; border-radius:5px;">
+   ⬅ Regresar
+</a>
+
+</body>
+</html>
+

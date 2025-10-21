@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Historia del Perú - Cultura Caral</title>
+   <style>
+    body {
+      font-family: 'Verdana', sans-serif;
+      background: linear-gradient(135deg, #ffeb99, #dfc0fc);
+      padding: 20px;
+      text-align: center;
+      margin: 0;
+    }
+    h1 {
+      color: #2c3e50;
+      font-size: 2.2em;
+      margin-bottom: 10px;
+    }
+    .avatar {
+      margin: 15px;
+      font-size: 2em;
+    }
+    .barra-progreso {
+      width: 80%;
+      height: 20px;
+      background: #ddd;
+      border-radius: 10px;
+      margin: 10px auto;
+      overflow: hidden;
+    }
+    .progreso {
+      height: 100%;
+      width: 0%;
+      background: #28a745;
+      transition: width 0.3s;
+    }
+    .cronometro {
+      font-size: 1.4em;
+      font-weight: bold;
+      color: #e74c3c;
+      margin-top: 10px;
+    }
+    .explicacion {
+      background: #fff5cc;
+      border: 2px dashed #f4c542;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 20px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+      font-size: 1.1em;
+    }
+    .pregunta {
+      background-color: #ffffff;
+      padding: 20px;
+      margin: 20px auto;
+      max-width: 600px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      border-top: 5px solid #f39c12;
+      transition: transform 0.2s ease;
+    }
+    .pregunta:hover {
+      transform: scale(1.02);
+    }
+    .pregunta p {
+      font-size: 1.4em;
+      font-weight: bold;
+      color: #34495e;
+      margin-bottom: 15px;
+    }
+    button {
+      margin: 6px;
+      padding: 10px 18px;
+      font-size: 1em;
+      border: none;
+      border-radius: 8px;
+      background-color: #f39c12;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    button:hover {
+      background-color: #d9820f;
+      transform: translateY(-2px);
+    }
+    .respuesta {
+      margin-top: 10px;
+      font-weight: bold;
+      font-size: 1.2em;
+    }
+    .final {
+      display: none;
+      margin-top: 30px;
+    }
+    #puntajeFinal {
+      font-size: 1.4em;
+      font-weight: bold;
+      margin-bottom: 15px;
+      color: #2980b9;
+    }
+  </style>
+</head>
+<body>
+  <h1>Historia del Perú: Cultura Caral</h1>
+  <div class="avatar">👨‍🏫 Tu guía de historia</div>
+
+  <div class="barra-progreso">
+    <div class="progreso" id="progreso"></div>
+  </div>
+
+  <div class="cronometro" id="cronometro">Tiempo: 5:10</div>
+
+  <div class="explicacion">
+    <h3>La cultura Caral: la civilización más antigua de América</h3>
+    <p>
+      La cultura Caral se desarrolló hace más de 5000 años, alrededor del 3000 a.C., en el valle del río Supe, en la costa norte del actual Perú. 
+      Es considerada la civilización más antigua de América y una de las más antiguas del mundo, contemporánea de las civilizaciones de Egipto y Mesopotamia.
+    </p>
+    <p>
+      Esta civilización preincaica destacaba por su avanzada planificación urbana, evidenciada en sus enormes pirámides de piedra, plazas circulares hundidas y caminos organizados.
+      A pesar de su antigüedad, Caral no conocía la cerámica, ni utilizaba armas de guerra, lo cual ha llevado a los arqueólogos a considerarla una sociedad pacífica.
+    </p>
+    <p>
+      Su economía se basaba en la agricultura (cultivaban algodón, calabaza, frijoles y ají), el comercio con pueblos de la sierra y la costa, y la pesca. 
+      En Caral se han encontrado instrumentos musicales como flautas hechas de huesos de pelícano y cornetas de caracol marino.
+    </p>
+    <p>
+      El descubrimiento de Caral, liderado por la arqueóloga Ruth Shady en la década de 1990, cambió por completo la visión que se tenía del origen de las civilizaciones en América. 
+      Fue declarada Patrimonio Cultural de la Humanidad por la UNESCO en 2009.
+    </p>
+    <p><strong>¡Ahora pon a prueba tus conocimientos con estas 20 preguntas!</strong></p>
+  </div>
+
+  <div id="contenedor"></div>
+
+  <div class="final" id="final">
+    <div id="puntajeFinal"></div>
+  </div>
+
+  <script>
+    const preguntas = [/* Tus 20 preguntas (idénticas a las que ya tenías) */ 
+      {
+        enunciado: "¿En qué valle se desarrolló la cultura Caral?",
+        opciones: ["Valle del Supe", "Valle del Mantaro", "Valle del Rímac", "Altiplano andino"],
+        correcta: "Valle del Supe"
+      },
+      {
+        enunciado: "¿Qué civilización es contemporánea a Caral?",
+        opciones: ["Imperio Inca", "Grecia", "Egipto", "Roma"],
+        correcta: "Egipto"
+      },
+      {
+        enunciado: "¿Hace cuántos años aproximadamente surgió la cultura Caral?",
+        opciones: ["2000 años", "3000 años", "5000 años", "7000 años"],
+        correcta: "5000 años"
+      },
+      {
+        enunciado: "¿Cuál era una de las actividades económicas de Caral?",
+        opciones: ["Minería de oro", "Agricultura", "Ganadería", "Textilería metálica"],
+        correcta: "Agricultura"
+      },
+      {
+        enunciado: "¿Qué característica destaca en la organización de Caral?",
+        opciones: ["Uso de armas", "Cerámica decorada", "Organización urbana avanzada", "Pintura mural"],
+        correcta: "Organización urbana avanzada"
+      },
+      {
+        enunciado: "¿Quién descubrió la ciudad sagrada de Caral?",
+        opciones: ["Julio C. Tello", "Ruth Shady", "Hiram Bingham", "Luis Lumbreras"],
+        correcta: "Ruth Shady"
+      },
+      {
+        enunciado: "¿Qué instrumentos musicales se hallaron en Caral?",
+        opciones: ["Panderetas", "Flautas de hueso y cornetas de caracol", "Guitarras", "Trompetas de metal"],
+        correcta: "Flautas de hueso y cornetas de caracol"
+      },
+      {
+        enunciado: "¿Qué producto agrícola cultivaban en Caral?",
+        opciones: ["Papa", "Maíz", "Algodón", "Quinua"],
+        correcta: "Algodón"
+      },
+      {
+        enunciado: "¿Caral fue declarada Patrimonio de la Humanidad por la UNESCO en qué año?",
+        opciones: ["2000", "2009", "1995", "2015"],
+        correcta: "2009"
+      },
+      {
+        enunciado: "¿Cuál fue una función de las plazas circulares hundidas?",
+        opciones: ["Cultivo de plantas", "Ceremonias y reuniones", "Cría de animales", "Almacenamiento de alimentos"],
+        correcta: "Ceremonias y reuniones"
+      },
+      {
+        enunciado: "¿Qué civilización peruana es más antigua que los incas?",
+        opciones: ["Moche", "Chavín", "Caral", "Nazca"],
+        correcta: "Caral"
+      },
+      {
+        enunciado: "¿Qué no conocían los caralinos?",
+        opciones: ["Pesca", "Agricultura", "Cerámica", "Intercambio comercial"],
+        correcta: "Cerámica"
+      },
+      {
+        enunciado: "¿Cuál era la base del comercio en Caral?",
+        opciones: ["Textiles de alpaca", "Frutas exóticas", "Algodón y pescado seco", "Metales preciosos"],
+        correcta: "Algodón y pescado seco"
+      },
+      {
+        enunciado: "¿Qué tipo de materiales se usaron en las construcciones de Caral?",
+        opciones: ["Adobe y madera", "Metal y mármol", "Piedra y barro", "Concreto y vidrio"],
+        correcta: "Piedra y barro"
+      },
+      {
+        enunciado: "¿Qué representa el hallazgo de Caral para la historia del Perú?",
+        opciones: ["Un mito", "La primera ciudad peruana", "El origen de la música", "La cultura menos importante"],
+        correcta: "La primera ciudad peruana"
+      },
+      {
+        enunciado: "¿Cómo era la sociedad caralina?",
+        opciones: ["Bélica", "Jerarquizada y pacífica", "Tribal nómada", "Democrática"],
+        correcta: "Jerarquizada y pacífica"
+      },
+      {
+        enunciado: "¿Qué otros pueblos comerciaban con Caral?",
+        opciones: ["Roma y Grecia", "Pueblos de la sierra y costa", "Amazonas", "Tiwanaku"],
+        correcta: "Pueblos de la sierra y costa"
+      },
+      {
+        enunciado: "¿Cuál era el rol de las pirámides en Caral?",
+        opciones: ["Viviendas", "Templos ceremoniales", "Talleres de alfarería", "Escuelas"],
+        correcta: "Templos ceremoniales"
+      },
+      {
+        enunciado: "¿Cuál fue uno de los aportes culturales más importantes de Caral?",
+        opciones: ["Cerámica policromada", "Escritura alfabética", "Arquitectura monumental", "Metalurgia avanzada"],
+        correcta: "Arquitectura monumental"
+      },
+      {
+        enunciado: "¿Qué función cumplía el río Supe en la cultura Caral?",
+        opciones: ["Separaba regiones enemigas", "No tenía función", "Permitía la pesca y riego", "Era solo decorativo"],
+        correcta: "Permitía la pesca y riego"
+      }
+    ];
+
+    function mezclarArreglo(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    let correctas = 0;
+    const total = 20;
+    let tiempoRestante = 310; // 5 min 10 seg
+    const progresoBarra = document.getElementById("progreso");
+    const contenedor = document.getElementById("contenedor");
+    const final = document.getElementById("final");
+    const puntajeFinal = document.getElementById("puntajeFinal");
+    const cronometro = document.getElementById("cronometro");
+
+    const preguntasAleatorias = mezclarArreglo([...preguntas]).slice(0, total);
+
+    preguntasAleatorias.forEach(pregunta => {
+      const div = document.createElement("div");
+      div.className = "pregunta";
+
+      const p = document.createElement("p");
+      p.innerHTML = pregunta.enunciado;
+      div.appendChild(p);
+
+      const resultado = document.createElement("div");
+      resultado.className = "respuesta";
+
+      pregunta.opciones.forEach(opcion => {
+        const btn = document.createElement("button");
+        btn.textContent = opcion;
+        btn.onclick = () => {
+          if (opcion === pregunta.correcta) {
+            correctas++;
+            resultado.textContent = "✅ ¡Correcto!";
+            resultado.style.color = "green";
+          } else {
+            resultado.textContent = "❌ Incorrecto";
+            resultado.style.color = "red";
+          }
+          progresoBarra.style.width = (correctas / total * 100) + "%";
+
+          if (correctas === total) {
+            finalizarJuego();
+          }
+        };
+        div.appendChild(btn);
+      });
+
+      div.appendChild(resultado);
+      contenedor.appendChild(div);
+    });
+
+    function finalizarJuego() {
+      contenedor.style.display = "none";
+      puntajeFinal.textContent = `✅ Respuestas correctas: ${correctas} de ${total}`;
+      final.style.display = "block";
+      clearInterval(intervalo);
+    }
+
+    const intervalo = setInterval(() => {
+      if (tiempoRestante <= 0) {
+        finalizarJuego();
+      } else {
+        tiempoRestante--;
+        let min = Math.floor(tiempoRestante / 60);
+        let seg = tiempoRestante % 60;
+        cronometro.textContent = `Tiempo: ${min}:${seg < 10 ? "0" + seg : seg}`;
+      }
+    }, 1000);
+  </script>
+
+<a href="historia.html" 
+   style="display:inline-block; margin-top:20px; padding:10px 15px; background:#f39c12; color:white; text-decoration:none; border-radius:5px;">
+   ⬅ Regresar
+</a>
+
+</body>
+</html>
